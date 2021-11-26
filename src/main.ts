@@ -4,10 +4,11 @@ class Server {
     /**
      * Server constructor
      */
-    constructor() {
-        
-    }
+    constructor() {}
 
+    /**
+     * Creates HTTP server listening on port 3000
+     */
     public static createServer() {
         createServer((_: IncomingMessage, response: ServerResponse) => {
             response.writeHead(200, {'Content-Type': 'text/plain'});
