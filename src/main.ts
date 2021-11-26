@@ -8,7 +8,7 @@ class Server {
         
     }
 
-    public createServer() {
+    public static createServer() {
         createServer((_: IncomingMessage, response: ServerResponse) => {
             response.writeHead(200, {'Content-Type': 'text/plain'});
             response.end('Hello! First node appliaction\n');
@@ -17,3 +17,5 @@ class Server {
         console.log('Server started');
     }
 }
+
+Server.createServer();
