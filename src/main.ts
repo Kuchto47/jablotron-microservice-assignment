@@ -1,6 +1,6 @@
 import { RestServer } from "./server";
 import { DbConnection } from './db/DbConnection';
-import { DbFiller } from "./db/DbFiller";
+import { DbSetUp } from "./db/DbSetUp";
 import { Server } from "restify";
 import { EndpointController } from "./api/EndpointController";
 import { IBaseController } from './api/IBaseController';
@@ -12,7 +12,7 @@ function createRestServer(): Server {
 }
 
 function prepareDb(): void {
-    let dbFiller = new DbFiller(new DbConnection());
+    let dbFiller = new DbSetUp(new DbConnection());
     dbFiller.prepareDbSchema();
     dbFiller.seedDataIntoDb();
 }

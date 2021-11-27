@@ -17,7 +17,7 @@ export class DbConnection implements IDbConnection {
     }
 
     /**
-     * 
+     * Connects to defined DB.
      */
     connect(): void {
         this._connection.connect((err) => {
