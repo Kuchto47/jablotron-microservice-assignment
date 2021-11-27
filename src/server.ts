@@ -1,7 +1,7 @@
 import { createServer, Server } from "restify";
 
 /**
- * 
+ * Class responsible for Rest Server creation and handling
  */
 export class RestServer {
     private readonly port: number;
