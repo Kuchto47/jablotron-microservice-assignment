@@ -6,14 +6,13 @@ export class UserDao implements IUserDao {
     /**
      * UserDao constructor
      */
-    constructor(private db: Connection) {
-    }
+    constructor(private db: Connection) {}
 
     /**
      * Inserts given user into DB.
      * @param user User to insert
      */
-    insertUser(user: UserDto): void {
+    public insertUser(user: UserDto): void {
         this.db.query(`INSERT INTO User (name, email, accessToken) VALUES ("${user.name}", "${user.email}", "${user.accessToken}")`);
     }
 
@@ -21,7 +20,7 @@ export class UserDao implements IUserDao {
      * Selects all users from DB
      * @returns all users in DB
      */
-    selectAllUsers(): Promise<UserDto[]> {
+    public selectAllUsers(): Promise<UserDto[]> {
         return new Promise<UserDto[]>((resolve, reject) => {
             this.db.query("SELECT * from User", (err: MysqlError, results: UserDto[], _: FieldInfo[]) => {
                 if (err) reject(err);
@@ -30,5 +29,7 @@ export class UserDao implements IUserDao {
         });
     }
 
-
+    public selectUserWithAccessToken(accessToken: string): Promise<UserDto> {
+        throw new Error('Method not implemented.');
+    }
 }
