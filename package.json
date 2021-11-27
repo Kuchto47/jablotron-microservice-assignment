@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node out/main.js",
     "assemble": "tsc -p .",
-    "assemble-and-start": "npm run build && npm run start",
+    "assemble-and-start": "npm run assemble && npm run start",
     "clear": "rmdir out /S /Q",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
