@@ -1,4 +1,4 @@
-import { Server } from "restify";
+import { Request, Server } from "restify";
 
 export class EndpointController {
 
@@ -8,10 +8,12 @@ export class EndpointController {
     constructor(private readonly server: Server) {}
 
     public register() {
-
+        this.registerGetAll();
     }
 
     private registerGetAll() {
-
+        this.server.get("/endpoints", (request: Request, result) => {
+            result.end("Get All Endpoints called, Implementation TODO!");
+        });
     }
 }
