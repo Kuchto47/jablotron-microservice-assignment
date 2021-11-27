@@ -33,7 +33,9 @@ export class DbFiller implements IDbFiller {
     public async seedDataIntoDb(): Promise<void> {
         let query: IQuery = new Query(this._db);
         let allUsers: IUserDao[] = await query.selectAllUsers();
-        console.log(JSON.stringify(allUsers));
+        if (allUsers.length === 0) {
+            //insert 2 users
+        }
     }
 
     /**
@@ -42,7 +44,7 @@ export class DbFiller implements IDbFiller {
     private createUserTableIfNotExist(): void {
         this._db.query(
             "CREATE TABLE IF NOT EXISTS `User`\
-            (`id` int NOT NULL COMMENT 'primary key',\
+            (`id` int NOT NULL AUTO_INCREMENT COMMENT 'primary key',\
             `name` varchar(255) NOT NULL COMMENT 'user name',\
             `email` varchar(255) NOT NULL COMMENT 'user salary',\
             `accessToken` varchar(255) NOT NULL COMMENT 'user access token',\
