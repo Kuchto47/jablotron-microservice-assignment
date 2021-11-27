@@ -1,8 +1,8 @@
-import { Server } from "./server";
+import { RestServer } from "./server";
 import { DbConnection } from './db/DbConnection';
 import { DbFiller } from "./db/DbFiller";
 
-Server.createServer();
+let server = new RestServer().createServer();
 
 let dbFiller = new DbFiller(new DbConnection());
 dbFiller.prepareDbSchema();
