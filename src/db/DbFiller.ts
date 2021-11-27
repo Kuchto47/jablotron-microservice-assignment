@@ -1,9 +1,9 @@
 import { IDbFiller } from './interfaces/IDbFiller';
-import { Connection, FieldInfo, MysqlError } from 'mysql';
-import { IUserDao } from './schema/model';
+import { Connection } from 'mysql';
+import { UserDto } from './schema/model';
 import { IDbConnection } from './interfaces/IDbConnection';
-import { Query } from './Query';
-import { IQuery } from './interfaces/IQuery';
+import { IUserDao } from './dao/IUserDao';
+import { UserDao } from './dao/UserDao';
 
 /**
  * Class responsible for creating and seeding data into DB
@@ -32,22 +32,22 @@ export class DbFiller implements IDbFiller {
      * Seeds data into existing DB and schema
      */
     public async seedDataIntoDb(): Promise<void> {
-        let query: IQuery = new Query(this._db);
-        let allUsers: IUserDao[] = await query.selectAllUsers();
+        let userDao: IUserDao = new UserDao(this._db);
+        let allUsers: UserDto[] = await userDao.selectAllUsers();
         if (allUsers.length === 0) {
-            const user1: IUserDao = {
+            const user1: UserDto = {
                 name: "Jablotron",
                 email: "info@jablotron.cz",
                 accessToken: "93f39e2f-80de-4033-99ee-249d92736a25"
             };
-            const user2: IUserDao = {
+            const user2: UserDto = {
                 name: "Batman",
                 email: "batman@example.com",
                 accessToken: "dcb20f8a-5657-4f1b-9f7f-ce65739b359e"
             };
 
-            query.insertUser(user1);
-            query.insertUser(user2);
+            userDao.insertUser(user1);
+            userDao.insertUser(user2);
         }
     }
 
