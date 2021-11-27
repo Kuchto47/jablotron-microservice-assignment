@@ -34,7 +34,19 @@ export class DbFiller implements IDbFiller {
         let query: IQuery = new Query(this._db);
         let allUsers: IUserDao[] = await query.selectAllUsers();
         if (allUsers.length === 0) {
-            //insert 2 users
+            const user1: IUserDao = {
+                name: "Jablotron",
+                email: "info@jablotron.cz",
+                accessToken: "93f39e2f-80de-4033-99ee-249d92736a25"
+            };
+            const user2: IUserDao = {
+                name: "Batman",
+                email: "batman@example.com",
+                accessToken: "dcb20f8a-5657-4f1b-9f7f-ce65739b359e"
+            };
+
+            query.insertUser(user1);
+            query.insertUser(user2);
         }
     }
 
