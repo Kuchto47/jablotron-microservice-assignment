@@ -1,4 +1,4 @@
-import { MonitoredEndpointDto } from '../db/schema/model';
+import { MonitoredEndpointDto } from '../../db/schema/model';
 
 export interface IMonitoredEndpointDao {
     insertMonitoredEndpoint(endpoint: MonitoredEndpointDto): void;

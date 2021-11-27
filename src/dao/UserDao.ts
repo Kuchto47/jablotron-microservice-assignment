@@ -1,6 +1,6 @@
 import { Connection, FieldInfo, MysqlError } from 'mysql';
 import { UserDto } from '../db/schema/model';
-import { IUserDao } from '../interfaces/IUserDao';
+import { IUserDao } from './interfaces/IUserDao';
 
 export class UserDao implements IUserDao {
     /**
