@@ -12,5 +12,5 @@ export interface IMonitoredEndpointDto {
     creationDate: any; //DateTime
     lastCheckDate: any; //DateTime
     monitoredInterval: number; //in seconds
-    _owner: UserDto
+    _owner: number
 }
