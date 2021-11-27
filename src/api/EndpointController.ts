@@ -1,10 +1,12 @@
 import { Request, Server } from "restify";
 import { MonitoredEndpointDto } from '../db/schema/model';
+import { IBaseController } from './IBaseController';
 
-export class EndpointController {
+export class EndpointController implements IBaseController {
 
     /**
      * Endpoint Controller constructor
+     * @param server Server on which controller should operate
      */
     constructor(private readonly server: Server) {}
 

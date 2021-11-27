@@ -3,6 +3,8 @@ import { DbConnection } from './db/DbConnection';
 import { DbFiller } from "./db/DbFiller";
 import { Server } from "restify";
 import { EndpointController } from "./api/EndpointController";
+import { IBaseController } from './api/IBaseController';
+import { UserController } from './api/UserController';
 
 function createRestServer(): Server {
     return new RestServer().createServer();
@@ -15,9 +17,12 @@ function prepareDb() {
 }
 
 function registerRestEndpoints(server: Server) {
-    let endpointController: EndpointController = new EndpointController(server);
+    let controllers: IBaseController[] = [
+        new EndpointController(server),
+        new UserController(server)
+    ];
 
-    endpointController.register();
+    controllers.forEach((controller: IBaseController) => controller.register());
 }
 
 let server: Server = createRestServer();
