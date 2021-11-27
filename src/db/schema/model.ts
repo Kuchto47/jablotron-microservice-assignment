@@ -5,12 +5,20 @@ export class UserDto {
     public accessToken: string;
 }
 
-export interface IMonitoredEndpointDto {
+export class MonitoredEndpointDto {
     id?: number;
     name: string;
     url: string;
     creationDate: any; //DateTime
     lastCheckDate: any; //DateTime
     monitoredInterval: number; //in seconds
-    _owner: number
+    ownerId: number
+}
+
+export class MonitoringResultDto {
+    id?: number;
+    checkDate: any; //DateTime
+    responseCode: number;
+    payloadReturned: string;
+    monitoredEndpointId: number;
 }

@@ -26,6 +26,7 @@ export class DbFiller implements IDbFiller {
     public prepareDbSchema(): void {
         this.createUserTableIfNotExist();
         this.createMonitoredEndpointTableIfNotExist();
+        this.createMonitoringResultTableIfNotExist();
     }
 
     /**
@@ -77,10 +78,29 @@ export class DbFiller implements IDbFiller {
             `creationDate` DateTime NOT NULL COMMENT 'endpoint creation date',\
             `lastCheckDate` DateTime NOT NULL COMMENT 'endpoint last check date',\
             `monitoredInterval` int NOT NULL COMMENT 'endpoint monitored interval',\
-            `_owner` int NOT NULL COMMENT 'owner of monitored endpoint',\
+            `ownerId` int NOT NULL COMMENT 'owner of monitored endpoint',\
             primary key(id),\
-            CONSTRAINT fk_owner FOREIGN KEY (_owner)\
+            CONSTRAINT fk_owner FOREIGN KEY (ownerId)\
             REFERENCES User(id)\
+            ON DELETE CASCADE\
+            ON UPDATE CASCADE);"
+        );
+    }
+
+    /**
+     * Creates MonitoredEndpoint table
+     */
+     private createMonitoringResultTableIfNotExist(): void {
+        this._db.query(
+            "CREATE TABLE IF NOT EXISTS `MonitoringResult`\
+            (`id` int NOT NULL auto_increment comment 'primary key',\
+            `checkDate` DateTime NOT NULL COMMENT 'date of check',\
+            `responseCode` int NOT NULL COMMENT 'http response code',\
+            `payloadReturned` varchar(1000) NOT NULL COMMENT 'http response payload',\
+            `monitoredEndpointId` int NOT NULL COMMENT 'endpoint ID of monitoring result',\
+            primary key(id),\
+            CONSTRAINT fk_endpoint FOREIGN KEY (monitoredEndpointId)\
+            REFERENCES MonitoredEndpoint(id)\
             ON DELETE CASCADE\
             ON UPDATE CASCADE);"
         );
