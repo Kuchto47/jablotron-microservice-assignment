@@ -1,4 +1,4 @@
-export interface IDbFiller {
+export interface IDbSetUp {
     prepareDbSchema(): void;
     seedDataIntoDb(): void;
 }

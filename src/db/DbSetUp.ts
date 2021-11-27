@@ -1,4 +1,4 @@
-import { IDbFiller as IDbSetUp } from './interfaces/IDbSetUp';
+import { IDbSetUp as IDbSetUp } from './interfaces/IDbSetUp';
 import { Connection } from 'mysql';
 import { UserDto } from './schema/model';
 import { IDbConnection } from './interfaces/IDbConnection';
