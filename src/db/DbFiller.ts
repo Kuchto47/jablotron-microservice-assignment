@@ -2,7 +2,7 @@ import { IDbFiller } from './interfaces/IDbFiller';
 import { Connection } from 'mysql';
 import { UserDto } from './schema/model';
 import { IDbConnection } from './interfaces/IDbConnection';
-import { IUserDao } from './dao/IUserDao';
+import { IUserDao } from './interfaces/IUserDao';
 import { UserDao } from './dao/UserDao';
 
 /**
