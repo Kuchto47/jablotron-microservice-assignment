@@ -10,13 +10,13 @@ function createRestServer(): Server {
     return new RestServer().createServer();
 }
 
-function prepareDb() {
+function prepareDb(): void {
     let dbFiller = new DbFiller(new DbConnection());
     dbFiller.prepareDbSchema();
     dbFiller.seedDataIntoDb();
 }
 
-function registerRestEndpoints(server: Server) {
+function registerRestEndpoints(server: Server): void {
     let controllers: IBaseController[] = [
         new EndpointController(server),
         new UserController(server)
@@ -25,7 +25,10 @@ function registerRestEndpoints(server: Server) {
     controllers.forEach((controller: IBaseController) => controller.register());
 }
 
-let server: Server = createRestServer();
-prepareDb();
-registerRestEndpoints(server);
+function start(): void {
+    let server: Server = createRestServer();
+    prepareDb();
+    registerRestEndpoints(server);
+}
 
+start();

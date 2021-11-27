@@ -2,6 +2,9 @@ import { Request, Server } from "restify";
 import { MonitoredEndpointDto } from '../db/schema/model';
 import { IBaseController } from './IBaseController';
 
+/**
+ * Class representing EndpointController responsible for Endpoint REST calls
+ */
 export class EndpointController implements IBaseController {
 
     /**
@@ -11,7 +14,7 @@ export class EndpointController implements IBaseController {
     constructor(private readonly server: Server) {}
 
     /**
-     * 
+     * Registers all Endpoint endpoints
      */
     public register() {
         this.registerGetAll();
@@ -23,7 +26,7 @@ export class EndpointController implements IBaseController {
     }
 
     /**
-     * 
+     * Registers /endpoints GET endpoint
      */
     private registerGetAll(): void {
         this.server.get("/endpoints", (_: Request, result: any) => {
@@ -32,7 +35,7 @@ export class EndpointController implements IBaseController {
     }
 
     /**
-     * 
+     * Registers /endpoints/:id GET endpoint
      */
     private registerGetById(): void {
         this.server.get("/endpoints/:id", (request: Request, result: any) => {
@@ -41,7 +44,7 @@ export class EndpointController implements IBaseController {
     }
 
     /**
-     * 
+     * Registers /endpoints/owner/:id GET endpoint
      */
     private registerGetByOwnersId(): void {
         this.server.get("/endpoints/owner/:id", (request: Request, result: any) => {
@@ -50,7 +53,7 @@ export class EndpointController implements IBaseController {
     }
 
     /**
-     * 
+     * Registers /endpoints POST endpoint
      */
     private registerPostEndpoint(): void {
         this.server.post("/endpoints", (request: Request, result: any) => {
@@ -60,7 +63,7 @@ export class EndpointController implements IBaseController {
     }
 
     /**
-     * 
+     * Registers /endpoints PUT endpoint
      */
     private registerPutEndpoint(): void {
         this.server.put("/endpoints", (request: Request, result: any) => {
@@ -70,10 +73,10 @@ export class EndpointController implements IBaseController {
     }
 
     /**
-     * 
+     * Registers /endpoints GET endpoint
      */
     private registerDeleteEndpointById(): void {
-        this.server.put("/endpoints/:id", (request: Request, result: any) => {
+        this.server.del("/endpoints/:id", (request: Request, result: any) => {
             result.end(`Delete Endpoint by ID (${request.params.id}) called, Implementation TODO!`);
         });
     }
