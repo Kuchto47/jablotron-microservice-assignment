@@ -13,10 +13,12 @@ export class Query implements IQuery {
         this._db = db;
     }
 
-    public selectAllUsers() {
-        this._db.query("SELECT * from User", (err: MysqlError, results: IUserDao[], fields: FieldInfo[]) => {
-            if (err) throw err;
-            console.log(`The response is ${JSON.stringify(results)}`);
+    public selectAllUsers(): Promise<IUserDao[]> {
+        return new Promise<IUserDao[]>((resolve, reject) => {
+            this._db.query("SELECT * from User", (err: MysqlError, results: IUserDao[], _: FieldInfo[]) => {
+                if (err) reject(err);
+                resolve(results);
+            });
         });
     }
 }

@@ -30,9 +30,10 @@ export class DbFiller implements IDbFiller {
     /**
      * Seeds data into existing DB and schema
      */
-    public seedDataIntoDb(): void {
+    public async seedDataIntoDb(): Promise<void> {
         let query: IQuery = new Query(this._db);
-        query.selectAllUsers();
+        let allUsers: IUserDao[] = await query.selectAllUsers();
+        console.log(JSON.stringify(allUsers));
     }
 
     /**

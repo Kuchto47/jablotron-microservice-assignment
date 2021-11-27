@@ -1,3 +1,5 @@
+import { IUserDao } from "../schema/model";
+
 export interface IQuery {
-    selectAllUsers(): void;
+    selectAllUsers(): Promise<IUserDao[]>;
 }
