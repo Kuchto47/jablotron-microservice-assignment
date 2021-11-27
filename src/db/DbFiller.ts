@@ -25,6 +25,7 @@ export class DbFiller implements IDbFiller {
      */
     public prepareDbSchema(): void {
         this.createUserTableIfNotExist();
+        this.createMonitoredEndpointTableIfNotExist();
     }
 
     /**
@@ -61,6 +62,27 @@ export class DbFiller implements IDbFiller {
             `email` varchar(255) NOT NULL COMMENT 'user salary',\
             `accessToken` varchar(255) NOT NULL COMMENT 'user access token',\
             PRIMARY KEY(id));"
+        );
+    }
+
+    /**
+     * Creates MonitoredEndpoint table
+     */
+     private createMonitoredEndpointTableIfNotExist(): void {
+        this._db.query(
+            "CREATE TABLE IF NOT EXISTS `MonitoredEndpoint`\
+            (`id` int NOT NULL auto_increment comment 'primary key',\
+            `name` varchar(255) NOT NULL COMMENT 'endpoint name',\
+            `url` varchar(255) NOT NULL COMMENT 'endpoint url',\
+            `creationDate` DateTime NOT NULL COMMENT 'endpoint creation date',\
+            `lastCheckDate` DateTime NOT NULL COMMENT 'endpoint last check date',\
+            `monitoredInterval` int NOT NULL COMMENT 'endpoint monitored interval',\
+            `_owner` int NOT NULL COMMENT 'owner of monitored endpoint',\
+            primary key(id),\
+            CONSTRAINT fk_owner FOREIGN KEY (_owner)\
+            REFERENCES User(id)\
+            ON DELETE CASCADE\
+            ON UPDATE CASCADE);"
         );
     }
 }

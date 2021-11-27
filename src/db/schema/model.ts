@@ -12,5 +12,5 @@ export interface IMonotoredEndpointDao {
     creationDate: any; //DateTime
     lastCheckDate: any; //DateTime
     monitoredInterval: number; //in seconds
-    owner: IUserDao
+    _owner: IUserDao
 }
