@@ -1,5 +1,5 @@
 import { Request, Server } from "restify";
-import { MonitoredEndpointDto } from '../db/schema/model';
+import { MonitoredEndpointDto } from '../db/model';
 import { IBaseController } from './IBaseController';
 import { IEndpointFacade } from '../facades/interfaces/IEndpointFacade';
 import { MonitoredEndpointPayload } from '../facades/model';

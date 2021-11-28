@@ -1,6 +1,6 @@
 import { IDbSetUp } from './interfaces/IDbSetUp';
 import { Connection } from 'mysql';
-import { UserDto } from './schema/model';
+import { UserDto } from './model';
 import { IDbConnection } from './interfaces/IDbConnection';
 import { IUserDao } from '../dao/interfaces/IUserDao';
 import { UserDao } from '../dao/UserDao';

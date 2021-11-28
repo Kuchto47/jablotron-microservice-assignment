@@ -1,4 +1,4 @@
-import { UserDto } from '../../db/schema/model';
+import { UserDto } from '../../db/model';
 
 export interface IUserDao {
     insertUser(user: UserDto): void

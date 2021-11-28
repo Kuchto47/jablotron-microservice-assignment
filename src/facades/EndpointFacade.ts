@@ -1,6 +1,6 @@
 import { IMonitoredEndpointDao } from '../dao/interfaces/IMonitoredEndpointDao';
 import { IUserDao } from '../dao/interfaces/IUserDao';
-import { UserDto, MonitoredEndpointDto } from '../db/schema/model';
+import { UserDto, MonitoredEndpointDto } from '../db/model';
 import { MonitoredEndpointPayload } from './model';
 import { IEndpointFacade } from './interfaces/IEndpointFacade';
 import { convertDateToDbFriendlyFormat } from '../helpers';

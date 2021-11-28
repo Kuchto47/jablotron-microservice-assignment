@@ -1,5 +1,5 @@
 import { Connection, MysqlError } from 'mysql';
-import { MonitoredEndpointDto } from '../db/schema/model';
+import { MonitoredEndpointDto } from '../db/model';
 import { IMonitoredEndpointDao } from './interfaces/IMonitoredEndpointDao';
 
 /**

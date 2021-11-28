@@ -1,5 +1,5 @@
 import { Connection, FieldInfo, MysqlError } from 'mysql';
-import { UserDto } from '../db/schema/model';
+import { UserDto } from '../db/model';
 import { IUserDao } from './interfaces/IUserDao';
 
 /**

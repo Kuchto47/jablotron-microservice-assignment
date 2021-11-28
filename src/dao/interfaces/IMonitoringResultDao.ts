@@ -1,4 +1,4 @@
-import { MonitoringResultDto } from '../../db/schema/model';
+import { MonitoringResultDto } from '../../db/model';
 
 export interface IMonitoringResultDao {
     insertMonitoringResult(result: MonitoringResultDto): void;
