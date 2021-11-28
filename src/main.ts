@@ -1,3 +1,3 @@
-import { start } from "./startUp";
+import { StartUp } from "./StartUp";
 
-start();
+StartUp.start();

@@ -2,6 +2,9 @@ import { Connection, MysqlError } from 'mysql';
 import { MonitoredEndpointDto } from '../db/schema/model';
 import { IMonitoredEndpointDao } from './interfaces/IMonitoredEndpointDao';
 
+/**
+ * Class representing Data Access Object for MonitoredEndpoint
+ */
 export class EndpointDao implements IMonitoredEndpointDao {
 
     /**
