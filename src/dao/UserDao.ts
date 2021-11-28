@@ -25,7 +25,7 @@ export class UserDao implements IUserDao {
      */
     public selectAllUsers(): Promise<UserDto[]> {
         return new Promise<UserDto[]>((resolve, reject) => {
-            this.db.query("SELECT * from User", (err: MysqlError, results: UserDto[], _: FieldInfo[]) => {
+            this.db.query("SELECT * FROM User", (err: MysqlError, results: UserDto[]) => {
                 if (err) reject(err);
                 resolve(results);
             });
