@@ -2,6 +2,9 @@ import { Connection, FieldInfo, MysqlError } from 'mysql';
 import { UserDto } from '../db/schema/model';
 import { IUserDao } from './interfaces/IUserDao';
 
+/**
+ * Class representing Data Access Object for User
+ */
 export class UserDao implements IUserDao {
     /**
      * UserDao constructor
@@ -29,6 +32,10 @@ export class UserDao implements IUserDao {
         });
     }
 
+    /**
+     * Get user with given access token
+     * @param accessToken to look for in DB
+     */
     public selectUserWithAccessToken(accessToken: string): Promise<UserDto> {
         throw new Error('Method not implemented.');
     }
