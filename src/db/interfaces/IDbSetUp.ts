@@ -1,4 +1,5 @@
 export interface IDbSetUp {
-    prepareDbSchema(): void;
-    seedDataIntoDb(): void;
+    prepareDbSchema(): IDbSetUp;
+    seedDataIntoDb(): Promise<void>;
+    then(): IDbSetUp;
 }

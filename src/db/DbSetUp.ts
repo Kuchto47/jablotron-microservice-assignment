@@ -1,4 +1,4 @@
-import { IDbSetUp as IDbSetUp } from './interfaces/IDbSetUp';
+import { IDbSetUp } from './interfaces/IDbSetUp';
 import { Connection } from 'mysql';
 import { UserDto } from './schema/model';
 import { IDbConnection } from './interfaces/IDbConnection';
@@ -23,10 +23,11 @@ export class DbSetUp implements IDbSetUp {
     /**
      * Prepares DB schema if it does not exist
      */
-    public prepareDbSchema(): void {
+    public prepareDbSchema(): IDbSetUp {
         this.createUserTableIfNotExist();
         this.createMonitoredEndpointTableIfNotExist();
         this.createMonitoringResultTableIfNotExist();
+        return this;
     }
 
     /**
@@ -50,6 +51,10 @@ export class DbSetUp implements IDbSetUp {
             userDao.insertUser(user1);
             userDao.insertUser(user2);
         }
+    }
+
+    public then(): IDbSetUp {
+        return this;
     }
 
     /**
@@ -76,7 +81,7 @@ export class DbSetUp implements IDbSetUp {
             `name` varchar(255) NOT NULL COMMENT 'endpoint name',\
             `url` varchar(255) NOT NULL COMMENT 'endpoint url',\
             `creationDate` DateTime NOT NULL COMMENT 'endpoint creation date',\
-            `lastCheckDate` DateTime NOT NULL COMMENT 'endpoint last check date',\
+            `lastCheckDate` DateTime COMMENT 'endpoint last check date',\
             `monitoredInterval` int NOT NULL COMMENT 'endpoint monitored interval',\
             `ownerId` int NOT NULL COMMENT 'owner of monitored endpoint',\
             primary key(id),\
