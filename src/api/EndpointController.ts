@@ -76,7 +76,7 @@ export class EndpointController implements IBaseController {
     }
 
     /**
-     * Registers /endpoints GET endpoint
+     * Registers /endpoints DELETE endpoint
      */
     private registerDeleteEndpointById(): void {
         this.server.del("/endpoints/:id", (request: Request, result: any) => {
