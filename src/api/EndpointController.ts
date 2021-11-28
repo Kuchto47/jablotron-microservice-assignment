@@ -1,6 +1,7 @@
 import { Request, Server } from "restify";
 import { MonitoredEndpointDto } from '../db/schema/model';
 import { IBaseController } from './IBaseController';
+import { IEndpointFacade } from '../facades/interfaces/IEndpointFacade';
 
 /**
  * Class representing EndpointController responsible for Endpoint REST calls
@@ -11,7 +12,7 @@ export class EndpointController implements IBaseController {
      * Endpoint Controller constructor
      * @param server Server on which controller should operate
      */
-    constructor(private readonly server: Server) {}
+    constructor(private readonly server: Server, private readonly endpointFacade: IEndpointFacade) {}
 
     /**
      * Registers all Endpoint endpoints
@@ -29,8 +30,9 @@ export class EndpointController implements IBaseController {
      * Registers /endpoints GET endpoint
      */
     private registerGetAll(): void {
-        this.server.get("/endpoints", (_: Request, result: any) => {
-            result.end("Get All Endpoints called, Implementation TODO!");
+        this.server.get("/endpoints", async (_: Request, result: any) => {
+            let data: MonitoredEndpointDto[] = await this.endpointFacade.selectAllEndpoints();
+            result.end(JSON.stringify(data));
         });
     }
 

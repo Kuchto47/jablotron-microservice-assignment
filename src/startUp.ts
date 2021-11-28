@@ -40,8 +40,7 @@ export class StartUp {
     private static prepareDb(): void {
         this.dbConnection = new DbConnection();
         let dbSetUp = new DbSetUp(this.dbConnection);
-        dbSetUp.prepareDbSchema();
-        dbSetUp.seedDataIntoDb();
+        dbSetUp.prepareDbSchema().then().seedDataIntoDb();
     }
 
     private static registerDaos(): void {
@@ -60,7 +59,7 @@ export class StartUp {
 
     private static registerRestEndpoints(server: Server): void {
         let controllers: IBaseController[] = [
-            new EndpointController(server),
+            new EndpointController(server, this.monitoredEndpointFacade),
             new UserController(server),
             new MonitoringResultController(server)
         ];

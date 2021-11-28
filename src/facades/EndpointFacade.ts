@@ -14,6 +14,13 @@ export class EndpointFacade implements IEndpointFacade {
     ) {}
 
     /**
+     * Selects all Monitored Endpoints
+     */
+    public async selectAllEndpoints(): Promise<MonitoredEndpointDto[]> {
+        return await this.endpointDao.selectAllMonitoredEndpoints();
+    }
+
+    /**
      * Inserts given endpoint into DB
      */
     public async insertEndpoint(userAccessToken: string, payload: MonitoredEndpointPayload): Promise<number> {
