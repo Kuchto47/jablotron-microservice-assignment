@@ -28,7 +28,7 @@ export class EndpointFacade implements IEndpointFacade {
         let monitoredEndpoint: MonitoredEndpointDto = {
             name: payload.name,
             url: payload.url,
-            creationDate: Date.now(),
+            creationDate: new Date(),
             lastCheckDate: null,
             monitoredInterval: payload.monitoredInterval,
             ownerId: user.id
