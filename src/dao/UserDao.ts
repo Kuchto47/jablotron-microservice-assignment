@@ -37,6 +37,17 @@ export class UserDao implements IUserDao {
      * @param accessToken to look for in DB
      */
     public selectUserWithAccessToken(accessToken: string): Promise<UserDto> {
-        throw new Error('Method not implemented.');
+        return new Promise<UserDto>((resolve, reject) => {
+            this.db.query(
+                `SELECT * FROM User\
+                WHERE accessToken = ${accessToken}`,
+                (err: MysqlError, results: UserDto[]) => {
+                    if (err) reject(err);
+                    if (results.length === 0) reject("No such user found");
+                    if (results.length >= 2) reject("More such users found");
+                    resolve(results[0]);
+                }
+            );
+        });
     }
 }
