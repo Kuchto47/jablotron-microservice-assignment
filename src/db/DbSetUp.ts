@@ -34,7 +34,7 @@ export class DbSetUp implements IDbSetUp {
      * Seeds data into existing DB and schema
      */
     public async seedDataIntoDb(): Promise<void> {
-        let userDao: IUserDao = new UserDao(this._db);
+        let userDao: IUserDao = new UserDao(this._db); // TODO Dependency Injection
         let allUsers: UserDto[] = await userDao.selectAllUsers();
         if (allUsers.length === 0) {
             const user1: UserDto = {
