@@ -16,12 +16,20 @@ export class EndpointDao implements IMonitoredEndpointDao {
      * Inserts given Endpoint into DB.
      * @param endpoint Endpoint to insert
      */
-    public insertMonitoredEndpoint(endpoint: MonitoredEndpointDto): void {
-        this.db.query(
-            `INSERT INTO MonitoredEndpoint\
-            (name, url, creationDate, lastCheckDate, monitoredInterval, ownerId)\
-            VALUES ("${endpoint.name}", "${endpoint.url}", "${endpoint.creationDate}", "${endpoint.lastCheckDate}", "${endpoint.monitoredInterval}", "${endpoint.ownerId}")`
-        );
+    public insertMonitoredEndpoint(endpoint: MonitoredEndpointDto): Promise<number> {
+        return new Promise<number>((resolve, reject) => {
+            this.db.query(
+                `INSERT INTO MonitoredEndpoint\
+                (name, url, creationDate, lastCheckDate, monitoredInterval, ownerId)\
+                VALUES ("${endpoint.name}", "${endpoint.url}", "${endpoint.creationDate}", "${endpoint.lastCheckDate}", "${endpoint.monitoredInterval}", "${endpoint.ownerId}")`,
+                (err: MysqlError, results: any) => {
+                    if (err) reject(err);
+                    console.log(results);
+                    resolve(results);
+                }
+            );
+        });
+        
     }
 
     /**
