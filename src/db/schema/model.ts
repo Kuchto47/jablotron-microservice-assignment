@@ -9,15 +9,15 @@ export class MonitoredEndpointDto {
     id?: number;
     name: string;
     url: string;
-    creationDate: Date;
-    lastCheckDate: Date;
+    creationDate: string; //date string
+    lastCheckDate?: string; //date string
     monitoredInterval: number; //in seconds
     ownerId: number
 }
 
 export class MonitoringResultDto {
     id?: number;
-    checkDate: Date;
+    checkDate: string; //date string
     responseCode: number;
     payloadReturned: string;
     monitoredEndpointId: number;

@@ -1,4 +1,4 @@
-import { createServer, Server } from "restify";
+import { createServer, Server, plugins } from "restify";
 
 /**
  * Class responsible for Rest Server creation and handling
@@ -24,7 +24,13 @@ export class RestServer {
         this.server.listen(this.port, this.host, () => {
             console.log(`Server started, listening at ${this.host}:${this.port}`);
         });
-
+        this.prepareServer();
         return this.server;
+    }
+
+    private prepareServer(): void {
+        this.server.use(plugins.acceptParser(this.server.acceptable));
+        this.server.use(plugins.queryParser());
+        this.server.use(plugins.bodyParser());
     }
 }

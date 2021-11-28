@@ -3,6 +3,7 @@ import { IUserDao } from '../dao/interfaces/IUserDao';
 import { UserDto, MonitoredEndpointDto } from '../db/schema/model';
 import { MonitoredEndpointPayload } from './model';
 import { IEndpointFacade } from './interfaces/IEndpointFacade';
+import { convertDateToDbFriendlyFormat } from '../helpers';
 
 export class EndpointFacade implements IEndpointFacade {
     /**
@@ -28,12 +29,10 @@ export class EndpointFacade implements IEndpointFacade {
         let monitoredEndpoint: MonitoredEndpointDto = {
             name: payload.name,
             url: payload.url,
-            creationDate: new Date(),
-            lastCheckDate: null,
+            creationDate: convertDateToDbFriendlyFormat(new Date()),
             monitoredInterval: payload.monitoredInterval,
             ownerId: user.id
         };
-        await this.endpointDao.insertMonitoredEndpoint(monitoredEndpoint);
-        return 0;
+        return await this.endpointDao.insertMonitoredEndpoint(monitoredEndpoint);
     }
 }

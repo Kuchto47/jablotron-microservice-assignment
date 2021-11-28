@@ -2,6 +2,7 @@ import { Request, Server } from "restify";
 import { MonitoredEndpointDto } from '../db/schema/model';
 import { IBaseController } from './IBaseController';
 import { IEndpointFacade } from '../facades/interfaces/IEndpointFacade';
+import { MonitoredEndpointPayload } from '../facades/model';
 
 /**
  * Class representing EndpointController responsible for Endpoint REST calls
@@ -58,9 +59,9 @@ export class EndpointController implements IBaseController {
      * Registers /endpoints POST endpoint
      */
     private registerPostEndpoint(): void {
-        this.server.post("/endpoints", (request: Request, result: any) => {
+        this.server.post("/endpoints", async (request: Request, result: any) => {
             let postData: MonitoredEndpointDto = request.body;
-            result.end(`Post Endpoint with data (${JSON.stringify(postData)}) called, Implementation TODO!`);
+            result.end(`${await this.endpointFacade.insertEndpoint(/*TODO Authentication & Authorization*/"93f39e2f-80de-4033-99ee-249d92736a25", postData)}`);
         });
     }
 
@@ -69,7 +70,7 @@ export class EndpointController implements IBaseController {
      */
     private registerPutEndpoint(): void {
         this.server.put("/endpoints", (request: Request, result: any) => {
-            let postData: MonitoredEndpointDto = request.body;
+            let postData: MonitoredEndpointPayload = request.body;
             result.end(`Put (update) Endpoint with data (${JSON.stringify(postData)}) called, Implementation TODO!`);
         });
     }

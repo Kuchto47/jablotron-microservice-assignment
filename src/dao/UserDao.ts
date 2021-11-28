@@ -40,7 +40,7 @@ export class UserDao implements IUserDao {
         return new Promise<UserDto>((resolve, reject) => {
             this.db.query(
                 `SELECT * FROM User\
-                WHERE accessToken = ${accessToken}`,
+                WHERE accessToken = "${accessToken}"`,
                 (err: MysqlError, results: UserDto[]) => {
                     if (err) reject(err);
                     if (results.length === 0) reject("No such user found");
