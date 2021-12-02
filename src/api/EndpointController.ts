@@ -31,7 +31,7 @@ export class EndpointController implements IBaseController {
     private registerGetAll(): void {
         this.server.get("/endpoints", async (_: Request, result: any) => {
             /*TODO Authentication & Authorization*/
-            let data: MonitoredEndpointDto[] = await this.endpointFacade.selectAllEndpoints();
+            let data: MonitoredEndpointDto[] = await this.endpointFacade.selectAllEndpoints(/*TODO Authentication & Authorization*/"93f39e2f-80de-4033-99ee-249d92736a25");
             result.end(JSON.stringify(data));
         });
     }

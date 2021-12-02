@@ -15,10 +15,11 @@ export class EndpointFacade implements IEndpointFacade {
     ) {}
 
     /**
-     * Selects all Monitored Endpoints
+     * Selects all Monitored Endpoints for User with given access token
      */
-    public async selectAllEndpoints(): Promise<MonitoredEndpointDto[]> {
-        return await this.endpointDao.selectAllMonitoredEndpoints();
+    public async selectAllEndpoints(userAccessToken: string): Promise<MonitoredEndpointDto[]> {
+        let user: UserDto = await this.userDao.selectUserWithAccessToken(userAccessToken);
+        return await this.endpointDao.selectMonitoredEndpointsForUser(user.id);
     }
 
     /**
@@ -34,5 +35,21 @@ export class EndpointFacade implements IEndpointFacade {
             ownerId: user.id
         };
         return await this.endpointDao.insertMonitoredEndpoint(monitoredEndpoint);
+    }
+
+    /**
+     * 
+     * @param data 
+     */
+    public async updateEndpoint(data: any): Promise<void> {
+        throw new Error('Method not implemented.');
+    }
+
+    /**
+     * 
+     * @param id 
+     */
+    public async deleteEndpoint(id: number): Promise<void> {
+        throw new Error('Method not implemented.');
     }
 }

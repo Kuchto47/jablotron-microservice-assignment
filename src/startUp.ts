@@ -13,11 +13,15 @@ import { IMonitoredEndpointDao } from './dao/interfaces/IMonitoredEndpointDao';
 import { EndpointDao } from './dao/EndpointDao';
 import { IEndpointFacade } from './facades/interfaces/IEndpointFacade';
 import { EndpointFacade } from './facades/EndpointFacade';
+import { IMonitoringResultFacade } from './facades/interfaces/IMonitoringResultFacade';
+import { MonitoringResultFacade } from './facades/MonitoringResultFacade';
+import { IUserFacade } from "./facades/interfaces/IUserFacade";
+import { UserFacade } from "./facades/UserFacade";
 
 export class StartUp {
     private static monitoredEndpointFacade: IEndpointFacade;
-    // private static monitoringResultFacade;
-    // private static userFacade;
+    private static monitoringResultFacade: IMonitoringResultFacade;
+    private static userFacade: IUserFacade;
 
     private static monitoredEndpointDao: IMonitoredEndpointDao;
     // private static monitoringResultDao;
@@ -51,10 +55,9 @@ export class StartUp {
     }
 
     private static registerFacades(): void {
-        /* TODO */
         this.monitoredEndpointFacade = new EndpointFacade(this.monitoredEndpointDao, this.userDao);
-        // this.monitoringResultFacade = "";
-        // this.userFacade = "";
+        this.monitoringResultFacade = new MonitoringResultFacade();
+        this.userFacade = new UserFacade();
     }
 
     private static registerRestEndpoints(server: Server): void {

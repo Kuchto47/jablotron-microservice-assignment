@@ -3,5 +3,7 @@ import { MonitoredEndpointPayload } from '../model';
 
 export interface IEndpointFacade {
     insertEndpoint(userAccessToken: string, payload: MonitoredEndpointPayload): Promise<number>;
-    selectAllEndpoints(): Promise<MonitoredEndpointDto[]>;
+    selectAllEndpoints(userAccessToken: string): Promise<MonitoredEndpointDto[]>;
+    updateEndpoint(data: any): Promise<void>;
+    deleteEndpoint(id: number): Promise<void>;
 }
