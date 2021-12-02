@@ -40,8 +40,8 @@ export class StartUp {
         this.prepareDb();
         this.registerDaos();
         this.registerFacades();
-        this.registerRestEndpoints(server);
         //this.startMonitoringEndpoints();
+        this.registerControllers(server);
     }
 
     private static createRestServer(): Server {
@@ -67,7 +67,13 @@ export class StartUp {
         this.userFacade = new UserFacade();
     }
 
-    private static registerRestEndpoints(server: Server): void {
+    private static startMonitoringEndpoints(): void {
+        this.monitoredEndpointsProbe = new EndpointProbe();
+        this.monitoredEndpointsProbe.start();
+    }
+
+    private static registerControllers(server: Server): void {
+        /*TODO: Controllers should get EndpointProbe.updateMonitoredData as dependency too */
         let controllers: IBaseController[] = [
             new EndpointController(server, this.monitoredEndpointFacade),
             new UserController(server),
@@ -75,11 +81,6 @@ export class StartUp {
         ];
     
         controllers.forEach((controller: IBaseController) => controller.register());
-    }
-
-    private static startMonitoringEndpoints(): void {
-        this.monitoredEndpointsProbe = new EndpointProbe();
-        this.monitoredEndpointsProbe.start();
     }
 }
 
