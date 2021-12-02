@@ -20,8 +20,6 @@ export class EndpointController implements IBaseController {
      */
     public register() {
         this.registerGetAll();
-        this.registerGetById();
-        this.registerGetByOwnersId();
         this.registerPostEndpoint();
         this.registerPutEndpoint();
         this.registerDeleteEndpointById();
@@ -32,26 +30,9 @@ export class EndpointController implements IBaseController {
      */
     private registerGetAll(): void {
         this.server.get("/endpoints", async (_: Request, result: any) => {
+            /*TODO Authentication & Authorization*/
             let data: MonitoredEndpointDto[] = await this.endpointFacade.selectAllEndpoints();
             result.end(JSON.stringify(data));
-        });
-    }
-
-    /**
-     * Registers /endpoints/:id GET endpoint
-     */
-    private registerGetById(): void {
-        this.server.get("/endpoints/:id", (request: Request, result: any) => {
-            result.end(`Get Endpoint by ID (${request.params.id}) called, Implementation TODO!`);
-        });
-    }
-
-    /**
-     * Registers /endpoints/owner/:id GET endpoint
-     */
-    private registerGetByOwnersId(): void {
-        this.server.get("/endpoints/owner/:id", (request: Request, result: any) => {
-            result.end(`Get Endpoint by owners ID (${request.params.id}) called, Implementation TODO!`);
         });
     }
 
@@ -60,6 +41,7 @@ export class EndpointController implements IBaseController {
      */
     private registerPostEndpoint(): void {
         this.server.post("/endpoints", async (request: Request, result: any) => {
+            /*TODO Authentication & Authorization*/
             let postData: MonitoredEndpointDto = request.body;
             result.end(`${await this.endpointFacade.insertEndpoint(/*TODO Authentication & Authorization*/"93f39e2f-80de-4033-99ee-249d92736a25", postData)}`);
         });
@@ -70,6 +52,7 @@ export class EndpointController implements IBaseController {
      */
     private registerPutEndpoint(): void {
         this.server.put("/endpoints", (request: Request, result: any) => {
+            /*TODO Authentication & Authorization*/
             let postData: MonitoredEndpointPayload = request.body;
             result.end(`Put (update) Endpoint with data (${JSON.stringify(postData)}) called, Implementation TODO!`);
         });
@@ -80,6 +63,7 @@ export class EndpointController implements IBaseController {
      */
     private registerDeleteEndpointById(): void {
         this.server.del("/endpoints/:id", (request: Request, result: any) => {
+            /*TODO Authentication & Authorization*/
             result.end(`Delete Endpoint by ID (${request.params.id}) called, Implementation TODO!`);
         });
     }

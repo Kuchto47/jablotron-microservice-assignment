@@ -23,6 +23,8 @@ export class UserController implements IBaseController {
      */
     private registerGetAll(): void {
         this.server.get("/users", (_: Request, result: any) => {
+            /* TODO Authentication & Authorization */
+            /* If user is authenticated, he shall see all user data, otherwise only emails */
             result.end("Get All Users called, Implementation TODO!");
         });
     }

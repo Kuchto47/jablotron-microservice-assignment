@@ -23,6 +23,7 @@ export class MonitoringResultController implements IBaseController {
      */
     private registerGetAll(): void {
         this.server.get("/monitoring", (_: Request, result: any) => {
+            /*TODO Authentication & Authorization*/
             result.end("Get All MonitoringResults called, Implementation TODO!");
         });
     }
