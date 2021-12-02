@@ -17,6 +17,8 @@ import { IMonitoringResultFacade } from './facades/interfaces/IMonitoringResultF
 import { MonitoringResultFacade } from './facades/MonitoringResultFacade';
 import { IUserFacade } from "./facades/interfaces/IUserFacade";
 import { UserFacade } from "./facades/UserFacade";
+import { IMonitoringResultDao } from "./dao/interfaces/IMonitoringResultDao";
+import { MonitoringResultDao } from "./dao/MonitoringResultDao";
 
 export class StartUp {
     private static monitoredEndpointFacade: IEndpointFacade;
@@ -24,7 +26,7 @@ export class StartUp {
     private static userFacade: IUserFacade;
 
     private static monitoredEndpointDao: IMonitoredEndpointDao;
-    // private static monitoringResultDao;
+    private static monitoringResultDao: IMonitoringResultDao;
     private static userDao: IUserDao;
 
     private static dbConnection: IDbConnection;
@@ -48,10 +50,10 @@ export class StartUp {
     }
 
     private static registerDaos(): void {
-        /* TODO */
-        this.userDao = new UserDao(this.dbConnection.getMySqlConnection());
-        this.monitoredEndpointDao = new EndpointDao(this.dbConnection.getMySqlConnection());
-        //this.monitoringResultDao
+        let connection = this.dbConnection.getMySqlConnection();
+        this.userDao = new UserDao(connection);
+        this.monitoredEndpointDao = new EndpointDao(connection);
+        this.monitoringResultDao = new MonitoringResultDao(connection);
     }
 
     private static registerFacades(): void {

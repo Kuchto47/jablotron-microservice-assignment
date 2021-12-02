@@ -1,7 +1,6 @@
 import { MonitoringResultDto } from '../../db/model';
 
 export interface IMonitoringResultDao {
-    insertMonitoringResult(result: MonitoringResultDto): void;
-    selectAllMonitoringResults(): Promise<MonitoringResultDto[]>;
+    insertMonitoringResult(monitoringResult: MonitoringResultDto): void;
     selectMonitoringResultsForEndpoint(endpointId: number): Promise<MonitoringResultDto[]>;
 }
