@@ -24,7 +24,7 @@ export class MonitoringResultDao implements IMonitoringResultDao {
      * 
      * @param endpointId 
      */
-    public async selectMonitoringResultsForEndpoint(endpointId: number): Promise<MonitoringResultDto[]> {
+    public async selectLast10MonitoringResultsForEndpoint(endpointId: number): Promise<MonitoringResultDto[]> {
         throw new Error('Method not implemented.');
     }
 
