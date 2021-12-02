@@ -20,6 +20,7 @@ import { UserFacade } from "./facades/UserFacade";
 import { IMonitoringResultDao } from "./dao/interfaces/IMonitoringResultDao";
 import { MonitoringResultDao } from "./dao/MonitoringResultDao";
 import { EndpointProbe } from "./backend-service/EndpointProbe";
+import { IEndpointProbe } from "./backend-service/IEndpointProbe";
 
 export class StartUp {
     private static monitoredEndpointFacade: IEndpointFacade;
@@ -29,6 +30,8 @@ export class StartUp {
     private static monitoredEndpointDao: IMonitoredEndpointDao;
     private static monitoringResultDao: IMonitoringResultDao;
     private static userDao: IUserDao;
+
+    private static monitoredEndpointsProbe: IEndpointProbe;
 
     private static dbConnection: IDbConnection;
 
@@ -75,8 +78,8 @@ export class StartUp {
     }
 
     private static startMonitoringEndpoints(): void {
-        let probe = new EndpointProbe();
-        probe.start();
+        this.monitoredEndpointsProbe = new EndpointProbe();
+        this.monitoredEndpointsProbe.start();
     }
 }
 
