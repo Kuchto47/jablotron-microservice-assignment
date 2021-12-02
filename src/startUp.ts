@@ -19,6 +19,7 @@ import { IUserFacade } from "./facades/interfaces/IUserFacade";
 import { UserFacade } from "./facades/UserFacade";
 import { IMonitoringResultDao } from "./dao/interfaces/IMonitoringResultDao";
 import { MonitoringResultDao } from "./dao/MonitoringResultDao";
+import { EndpointProbe } from "./backend-service/EndpointProbe";
 
 export class StartUp {
     private static monitoredEndpointFacade: IEndpointFacade;
@@ -37,6 +38,7 @@ export class StartUp {
         this.registerDaos();
         this.registerFacades();
         this.registerRestEndpoints(server);
+        //this.startMonitoringEndpoints();
     }
 
     private static createRestServer(): Server {
@@ -70,6 +72,11 @@ export class StartUp {
         ];
     
         controllers.forEach((controller: IBaseController) => controller.register());
+    }
+
+    private static startMonitoringEndpoints(): void {
+        let probe = new EndpointProbe();
+        probe.start();
     }
 }
 
