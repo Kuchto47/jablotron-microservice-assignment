@@ -7,7 +7,7 @@ export interface IEndpointFacade {
      * @param userAccessToken token of user
      * @param payload payload to insert
      */
-    insertEndpoint(userAccessToken: string, payload: MonitoredEndpointPayload): Promise<number>;
+    insertEndpoint(userId: number, payload: MonitoredEndpointPayload): Promise<number>;
 
     /**
      * Retrieves all endpoints for user
@@ -24,7 +24,8 @@ export interface IEndpointFacade {
 
     /**
      * Deletes MonitoredEndpoint from DB
-     * @param id endpoint to be deleted
+     * @param endpointId endpoint to be deleted
+     * @param userId user who is deleting
      */
-    deleteEndpoint(id: number): Promise<void>;
+    deleteEndpoint(endpointId: number, userId: number): Promise<boolean>;
 }

@@ -62,4 +62,19 @@ export class EndpointDao implements IMonitoredEndpointDao {
         });
     }
 
+    /**
+     * Deletes endpoint from DB
+     * @param id endpoint id to be deleted
+     */
+    public async deleteEndpoint(id: number): Promise<boolean> {
+        return new Promise<boolean>((resolve) => {
+            this.db.query(
+                `DELETE FROM MonitoredEndpoint WHERE id = ${id}`,
+                (err: MysqlError, _: any) => {
+                    resolve(!err);
+                }
+            )
+        });
+    }
+
 }

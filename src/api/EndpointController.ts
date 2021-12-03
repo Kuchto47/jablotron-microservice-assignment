@@ -4,6 +4,7 @@ import { IBaseController } from './IBaseController';
 import { IEndpointFacade } from '../facades/interfaces/IEndpointFacade';
 import { MonitoredEndpointPayload } from '../facades/model';
 import { IUserFacade } from "../facades/interfaces/IUserFacade";
+import { resourceLimits } from "worker_threads";
 
 /**
  * Class representing EndpointController responsible for Endpoint REST calls
@@ -34,15 +35,14 @@ export class EndpointController implements IBaseController {
      * Registers /endpoints GET endpoint
      */
     private registerGetAll(): void {
-        this.server.get("/endpoints", async (request: Request, result: Response) => {
+        this.server.get("/endpoints", async (request: Request, response: Response) => {
             let authenticationResult = await this.authenticateUser(request.headers.authorization);
             if (!authenticationResult) {
-                result.status(404);
-                result.end();
+                this.unathorized(response);
                 return;
             }
             let data: MonitoredEndpointDto[] = await this.endpointFacade.selectAllEndpoints(authenticationResult);
-            result.end(JSON.stringify(data));
+            response.end(JSON.stringify(data));
         });
     }
 
@@ -50,10 +50,14 @@ export class EndpointController implements IBaseController {
      * Registers /endpoints POST endpoint
      */
     private registerInsertEndpoint(): void {
-        this.server.post("/endpoints", async (request: Request, result: any) => {
-            /*TODO Authentication & Authorization*/
+        this.server.post("/endpoints", async (request: Request, response: Response) => {
+            let authenticatedUserId = await this.authenticateUser(request.headers.authorization);
+            if (!authenticatedUserId) {
+                this.unathorized(response);
+                return;
+            }
             let postData: MonitoredEndpointDto = request.body;
-            result.end(`${await this.endpointFacade.insertEndpoint(/*TODO Authentication & Authorization*/"93f39e2f-80de-4033-99ee-249d92736a25", postData)}`);
+            response.end(`${await this.endpointFacade.insertEndpoint(authenticatedUserId, postData)}`);
         });
     }
 
@@ -61,10 +65,10 @@ export class EndpointController implements IBaseController {
      * Registers /endpoints PUT endpoint
      */
     private registerUpdateEndpoint(): void {
-        this.server.put("/endpoints/:id", async (request: Request, result: any) => {
+        this.server.put("/endpoints/:id", async (request: Request, response: Response) => {
             /*TODO Authentication & Authorization*/
             let postData: MonitoredEndpointPayload = request.body;
-            result.end(`${await this.endpointFacade.updateEndpoint(postData, request.params.id)}`);
+            response.end(`${await this.endpointFacade.updateEndpoint(postData, Number.parseInt(request.params.id))}`);
             //result.end(`Put (update) Endpoint with data (${JSON.stringify(postData)}) called, Implementation TODO!`);
         });
     }
@@ -73,13 +77,24 @@ export class EndpointController implements IBaseController {
      * Registers /endpoints DELETE endpoint
      */
     private registerDeleteEndpointById(): void {
-        this.server.del("/endpoints/:id", (request: Request, result: any) => {
-            /*TODO Authentication & Authorization*/
-            result.end(`Delete Endpoint by ID (${request.params.id}) called, Implementation TODO!`);
+        this.server.del("/endpoints/:id", async (request: Request, response: Response) => {
+            let authenticatedUserId = await this.authenticateUser(request.headers.authorization);
+            if (!authenticatedUserId) {
+                this.unathorized(response);
+                return;
+            }
+            let deletionResult = await this.endpointFacade.deleteEndpoint(Number.parseInt(request.params.id), authenticatedUserId);
+            response.status(deletionResult ? 200 : 404);
+            response.end(`Endpoint with Id ${request.params.id} ${deletionResult ? 'was' : 'wasn\'t'} deleted.`);
         });
     }
 
     private async authenticateUser(accessToken: string): Promise<number | null> {
         return await this.userFacade.authenticate(accessToken);
+    }
+
+    private unathorized(response: Response): void {
+        response.status(401);
+        response.end();
     }
 }

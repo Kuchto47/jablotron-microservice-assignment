@@ -9,10 +9,7 @@ export class EndpointFacade implements IEndpointFacade {
     /**
      * Class constructor
      */
-    constructor(
-        private readonly endpointDao: IMonitoredEndpointDao,
-        private readonly userDao: IUserDao
-    ) {}
+    constructor(private readonly endpointDao: IMonitoredEndpointDao) {}
 
     /**
      * Selects all Monitored Endpoints for User with given access token
@@ -24,14 +21,13 @@ export class EndpointFacade implements IEndpointFacade {
     /**
      * Inserts given endpoint into DB
      */
-    public async insertEndpoint(userAccessToken: string, payload: MonitoredEndpointPayload): Promise<number> {
-        let user: UserDto = await this.userDao.selectUserWithAccessToken(userAccessToken);
+    public async insertEndpoint(userId: number, payload: MonitoredEndpointPayload): Promise<number> {
         let monitoredEndpoint: MonitoredEndpointDto = {
             name: payload.name,
             url: payload.url,
             creationDate: convertDateToDbFriendlyFormat(new Date()),
             monitoredInterval: payload.monitoredInterval,
-            ownerId: user.id
+            ownerId: userId
         };
         return await this.endpointDao.insertMonitoredEndpoint(monitoredEndpoint);
     }
@@ -45,10 +41,18 @@ export class EndpointFacade implements IEndpointFacade {
     }
 
     /**
-     * 
-     * @param id 
+     * Deletes MonitoredEndpoint from DB
+     * @param endpointId endpoint to be deleted
+     * @param userId user who is deleting
+     * @returns true if deleted, false otherwise
      */
-    public async deleteEndpoint(id: number): Promise<void> {
-        throw new Error('Method not implemented.');
+    public async deleteEndpoint(endpointId: number, userId: number): Promise<boolean> {
+        try {
+            let ownedEndpoints = await this.endpointDao.selectMonitoredEndpointsForUser(userId);
+            if (!ownedEndpoints.find(x => x.id === endpointId)) return false;
+            return await this.endpointDao.deleteEndpoint(endpointId);
+        } catch (_) {
+            return false;
+        }
     }
 }

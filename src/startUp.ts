@@ -62,7 +62,7 @@ export class StartUp {
     }
 
     private static registerFacades(): void {
-        this.monitoredEndpointFacade = new EndpointFacade(this.monitoredEndpointDao, this.userDao);
+        this.monitoredEndpointFacade = new EndpointFacade(this.monitoredEndpointDao);
         this.monitoringResultFacade = new MonitoringResultFacade();
         this.userFacade = new UserFacade(this.userDao);
     }
