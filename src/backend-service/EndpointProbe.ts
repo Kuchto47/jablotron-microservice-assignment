@@ -7,11 +7,20 @@ export class EndpointProbe implements IEndpointProbe {
      */
     constructor() {}
 
-    /**
-     * 
-     */
-    public updateMonitoredData(): void {
-        // upon called, should request all monitored endpoints from DB
+    public start(): void {
+        // Get all monitored endpoints.
+
+        // For each, store them in a map <id, {monitoredEndpoint(url, intervalTime is enough), interval(fn)}>,
+        // where interval is a method running each "monitoredInterval" seconds.
+        // Value of this map could be a class
+
+        // This repetitive method fetches url and creates MonitoringResult with current date, response code and response payload.
+        // This should be persisted via MonitoringResultFacade.
+        // Same current date as for MonitoringResult should be used to update lastCheckDate in MonitoredEndpoint with respective id via facade EndpointFacade.
+        throw new Error("Method not implemented.");
+    }
+
+    // upon called, should request all monitored endpoints from DB
 
         // then it should check already monitored endpoints and:
         //      - remove those, that are missing in DB response (use case delete)
@@ -24,19 +33,28 @@ export class EndpointProbe implements IEndpointProbe {
 
         //      - insert those that are in DB response and not in map (use case insert)
         //          - start new interval for them
+
+    /**
+     * Load Endpoint with given ID from DB and start monitoring
+     * @param endpointId ID of newly inserted endpoint to monitor
+     */
+    public onInsert(endpointId: number): void {
         throw new Error("Method not implemented.");
     }
 
-    public start(): void {
-        // Get all monitored endpoints.
+    /**
+     * Load Endpoint with given ID from DB and update data for monitoring
+     * @param endpointId ID of updated endpoint
+     */
+    public onUpdate(endpointId: number): void {
+        throw new Error("Method not implemented.");
+    }
 
-        // For each, store them in a map <id, {monitoredEndpoint(url, intervalTime is enough), interval(fn)}>,
-        // where interval is a method running each "monitoredInterval" seconds.
-        // Value of this map could be a class
-
-        // This repetitive method fetches url and creates MonitoringResult with current date, response code and response payload.
-        // This should be persisted via MonitoringResultFacade.
-        // Same current date as for MonitoringResult should be used to update lastCheckDate in MonitoredEndpoint with respective id via facade EndpointFacade.
+    /**
+     * Stop monitoring Endpoint with given ID and remove it from monitoring
+     * @param endpointId ID of recently deleted endpoint
+     */
+    public onDelete(endpointId: number): void {
         throw new Error("Method not implemented.");
     }
 

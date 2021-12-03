@@ -73,7 +73,7 @@ export class StartUp {
     }
 
     private static registerControllers(server: Server): void {
-        /*TODO: Controllers should get EndpointProbe.updateMonitoredData as dependency too */
+        /*TODO: Controllers should get on-methods of EndpointProbe as dependencies too */
         let controllers: IBaseController[] = [
             new EndpointController(server, this.monitoredEndpointFacade),
             new UserController(server),
