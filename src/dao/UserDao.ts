@@ -44,7 +44,25 @@ export class UserDao implements IUserDao {
                 (err: MysqlError, results: UserDto[]) => {
                     if (err) reject(err);
                     if (results.length === 0) reject("No such user found");
-                    if (results.length >= 2) reject("More such users found");
+                    if (results.length >= 2) reject("More such users found, indeterminate!");
+                    resolve(results[0]);
+                }
+            );
+        });
+    }
+
+    /**
+     * Get user with given id
+     * @param id ID of user to look for in DB
+     */
+     public selectUserWithId(id: number): Promise<UserDto> {
+        return new Promise<UserDto>((resolve, reject) => {
+            this.db.query(
+                `SELECT * FROM User\
+                WHERE id = "${id}"`,
+                (err: MysqlError, results: UserDto[]) => {
+                    if (err) reject(err);
+                    if (results.length === 0) reject("No such user found");
                     resolve(results[0]);
                 }
             );

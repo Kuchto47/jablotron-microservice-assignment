@@ -64,7 +64,7 @@ export class StartUp {
     private static registerFacades(): void {
         this.monitoredEndpointFacade = new EndpointFacade(this.monitoredEndpointDao, this.userDao);
         this.monitoringResultFacade = new MonitoringResultFacade();
-        this.userFacade = new UserFacade();
+        this.userFacade = new UserFacade(this.userDao);
     }
 
     private static startMonitoringEndpoints(): void {
@@ -75,7 +75,7 @@ export class StartUp {
     private static registerControllers(server: Server): void {
         /*TODO: Controllers should get on-methods of EndpointProbe as dependencies too */
         let controllers: IBaseController[] = [
-            new EndpointController(server, this.monitoredEndpointFacade),
+            new EndpointController(server, this.monitoredEndpointFacade, this.userFacade),
             new UserController(server),
             new MonitoringResultController(server)
         ];

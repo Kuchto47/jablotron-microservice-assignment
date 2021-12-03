@@ -17,9 +17,8 @@ export class EndpointFacade implements IEndpointFacade {
     /**
      * Selects all Monitored Endpoints for User with given access token
      */
-    public async selectAllEndpoints(userAccessToken: string): Promise<MonitoredEndpointDto[]> {
-        let user: UserDto = await this.userDao.selectUserWithAccessToken(userAccessToken);
-        return await this.endpointDao.selectMonitoredEndpointsForUser(user.id);
+    public async selectAllEndpoints(userId: number): Promise<MonitoredEndpointDto[]> {
+        return await this.endpointDao.selectMonitoredEndpointsForUser(userId);
     }
 
     /**
@@ -41,7 +40,7 @@ export class EndpointFacade implements IEndpointFacade {
      * 
      * @param data 
      */
-    public async updateEndpoint(data: any): Promise<void> {
+    public async updateEndpoint(data: any, endpointId: number): Promise<number> {
         throw new Error('Method not implemented.');
     }
 
