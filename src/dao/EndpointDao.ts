@@ -9,14 +9,10 @@ export class EndpointDao implements IMonitoredEndpointDao {
 
     /**
      * EndpointDao constructor
+     * @param db DB Connection
      */
     constructor(private db: Connection) {}
 
-    /**
-     * Inserts given Endpoint into DB.
-     * @param endpoint Endpoint to insert
-     * @returns ID of inserted record
-     */
     public insertMonitoredEndpoint(endpoint: MonitoredEndpointDto): Promise<number> {
         return new Promise<number>((resolve, reject) => {
             this.db.query(
@@ -32,11 +28,7 @@ export class EndpointDao implements IMonitoredEndpointDao {
         
     }
 
-    /**
-     * Selects All Endpoints from DB.
-     * @returns all monitored endpoints from DB
-     */
-     public selectAllMonitoredEndpoints(): Promise<MonitoredEndpointDto[]> {
+    public selectAllMonitoredEndpoints(): Promise<MonitoredEndpointDto[]> {
         return new Promise<MonitoredEndpointDto[]>((resolve, reject) => {
             this.db.query("SELECT * FROM MonitoredEndpoint", (err: MysqlError, results: MonitoredEndpointDto[]) => {
                 if (err) reject(err);
@@ -45,11 +37,7 @@ export class EndpointDao implements IMonitoredEndpointDao {
         });
     }
 
-    /**
-     * Select all Endpoints for owner with given ID
-     * @param ownerId ID of owner of requested endpoints
-     */
-     public selectMonitoredEndpointsForUser(ownerId: number): Promise<MonitoredEndpointDto[]> {
+    public selectMonitoredEndpointsForUser(ownerId: number): Promise<MonitoredEndpointDto[]> {
         return new Promise<MonitoredEndpointDto[]>((resolve, reject) => {
             this.db.query(
                 `SELECT * FROM MonitoredEndpoint\
@@ -62,10 +50,6 @@ export class EndpointDao implements IMonitoredEndpointDao {
         });
     }
 
-    /**
-     * Deletes endpoint from DB
-     * @param id endpoint id to be deleted
-     */
     public async deleteEndpoint(id: number): Promise<boolean> {
         return new Promise<boolean>((resolve) => {
             this.db.query(
@@ -76,5 +60,4 @@ export class EndpointDao implements IMonitoredEndpointDao {
             )
         });
     }
-
 }

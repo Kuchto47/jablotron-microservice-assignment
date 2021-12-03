@@ -34,26 +34,14 @@ export class EndpointProbe implements IEndpointProbe {
         //      - insert those that are in DB response and not in map (use case insert)
         //          - start new interval for them
 
-    /**
-     * Load Endpoint with given ID from DB and start monitoring
-     * @param endpointId ID of newly inserted endpoint to monitor
-     */
     public onInsert(endpointId: number): void {
         throw new Error("Method not implemented.");
     }
 
-    /**
-     * Load Endpoint with given ID from DB and update data for monitoring
-     * @param endpointId ID of updated endpoint
-     */
     public onUpdate(endpointId: number): void {
         throw new Error("Method not implemented.");
     }
 
-    /**
-     * Stop monitoring Endpoint with given ID and remove it from monitoring
-     * @param endpointId ID of recently deleted endpoint
-     */
     public onDelete(endpointId: number): void {
         throw new Error("Method not implemented.");
     }

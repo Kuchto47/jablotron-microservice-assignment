@@ -4,7 +4,6 @@ import { IBaseController } from './IBaseController';
 import { IEndpointFacade } from '../facades/interfaces/IEndpointFacade';
 import { MonitoredEndpointPayload } from '../facades/model';
 import { IUserFacade } from "../facades/interfaces/IUserFacade";
-import { resourceLimits } from "worker_threads";
 
 /**
  * Class representing EndpointController responsible for Endpoint REST calls
@@ -21,9 +20,7 @@ export class EndpointController implements IBaseController {
         private readonly userFacade: IUserFacade
     ) {}
 
-    /**
-     * Registers all Endpoint endpoints
-     */
+    
     public register() {
         this.registerGetAll();
         this.registerInsertEndpoint();
@@ -69,7 +66,6 @@ export class EndpointController implements IBaseController {
             /*TODO Authentication & Authorization*/
             let postData: MonitoredEndpointPayload = request.body;
             response.end(`${await this.endpointFacade.updateEndpoint(postData, Number.parseInt(request.params.id))}`);
-            //result.end(`Put (update) Endpoint with data (${JSON.stringify(postData)}) called, Implementation TODO!`);
         });
     }
 

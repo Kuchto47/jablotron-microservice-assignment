@@ -1,4 +1,4 @@
-import { Connection, FieldInfo, MysqlError } from 'mysql';
+import { Connection, MysqlError } from 'mysql';
 import { UserDto } from '../db/model';
 import { IUserDao } from './interfaces/IUserDao';
 
@@ -11,18 +11,10 @@ export class UserDao implements IUserDao {
      */
     constructor(private db: Connection) {}
 
-    /**
-     * Inserts given user into DB.
-     * @param user User to insert
-     */
     public insertUser(user: UserDto): void {
         this.db.query(`INSERT INTO User (name, email, accessToken) VALUES ("${user.name}", "${user.email}", "${user.accessToken}")`);
     }
 
-    /**
-     * Selects all users from DB
-     * @returns all users in DB
-     */
     public selectAllUsers(): Promise<UserDto[]> {
         return new Promise<UserDto[]>((resolve, reject) => {
             this.db.query("SELECT * FROM User", (err: MysqlError, results: UserDto[]) => {
@@ -32,10 +24,6 @@ export class UserDao implements IUserDao {
         });
     }
 
-    /**
-     * Get user with given access token
-     * @param accessToken to look for in DB
-     */
     public selectUserWithAccessToken(accessToken: string): Promise<UserDto> {
         return new Promise<UserDto>((resolve, reject) => {
             this.db.query(
@@ -51,11 +39,7 @@ export class UserDao implements IUserDao {
         });
     }
 
-    /**
-     * Get user with given id
-     * @param id ID of user to look for in DB
-     */
-     public selectUserWithId(id: number): Promise<UserDto> {
+    public selectUserWithId(id: number): Promise<UserDto> {
         return new Promise<UserDto>((resolve, reject) => {
             this.db.query(
                 `SELECT * FROM User\

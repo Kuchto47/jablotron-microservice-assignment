@@ -9,21 +9,15 @@ export class MonitoringResultDao implements IMonitoringResultDao {
 
     /**
      * EndpointDao constructor
+     * 
+     * @param db DB connection
      */
     constructor(private db: Connection) {}
 
-    /**
-     * 
-     * @param monitoringResult 
-     */
     public async insertMonitoringResult(monitoringResult: MonitoringResultDto): Promise<void> {
         throw new Error('Method not implemented.');
     }
 
-    /**
-     * 
-     * @param endpointId 
-     */
     public async selectLast10MonitoringResultsForEndpoint(endpointId: number): Promise<MonitoringResultDto[]> {
         throw new Error('Method not implemented.');
     }

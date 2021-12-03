@@ -9,20 +9,18 @@ import { UserDao } from '../dao/UserDao';
  * Class responsible for creating and seeding data into DB
  */
 export class DbSetUp implements IDbSetUp {
-
     private _db: Connection;
 
     /**
      * Class constructor
+     * 
+     * @param dbConnection Connection to DB
      */
     constructor(dbConnection: IDbConnection) {
         dbConnection.connect();
         this._db = dbConnection.getMySqlConnection();
     }
 
-    /**
-     * Prepares DB schema if it does not exist
-     */
     public prepareDbSchema(): IDbSetUp {
         this.createUserTableIfNotExist();
         this.createMonitoredEndpointTableIfNotExist();
@@ -30,11 +28,8 @@ export class DbSetUp implements IDbSetUp {
         return this;
     }
 
-    /**
-     * Seeds data into existing DB and schema
-     */
     public async seedDataIntoDb(): Promise<void> {
-        let userDao: IUserDao = new UserDao(this._db); // TODO Dependency Injection
+        let userDao: IUserDao = new UserDao(this._db); // TODO Dependency Injection for UserDao
         let allUsers: UserDto[] = await userDao.selectAllUsers();
         if (allUsers.length === 0) {
             const user1: UserDto = {
