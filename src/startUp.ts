@@ -78,9 +78,9 @@ export class StartUp {
                 server,
                 this.monitoredEndpointService,
                 this.userService,
-                this.monitoredEndpointsProbe.onInsert,
-                this.monitoredEndpointsProbe.onUpdate,
-                this.monitoredEndpointsProbe.onDelete
+                this.monitoredEndpointsProbe.onInsert.bind(this.monitoredEndpointsProbe),
+                this.monitoredEndpointsProbe.onUpdate.bind(this.monitoredEndpointsProbe),
+                this.monitoredEndpointsProbe.onDelete.bind(this.monitoredEndpointsProbe)
             ),
             new MonitoringResultController(server, this.userService, this.monitoringResultService)
         ];
