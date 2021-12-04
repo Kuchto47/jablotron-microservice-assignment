@@ -18,6 +18,8 @@ export interface IMonitoringResultService {
      * @param userId user to whom endpoints shall belong to
      * 
      * @returns List of up to 10 monitoring results
+     * 
+     * @throws Exception if endpoint is found but belongs to somebody else or selecting results failed...
      */
      selectLast10ResultsForEndpoint(endpointId: number, userId: number): Promise<MonitoringResultDto[]>;
 }

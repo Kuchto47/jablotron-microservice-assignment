@@ -3,6 +3,7 @@ import { IBaseController } from './IBaseController';
 import { IUserService } from '../services/interfaces/IUserService';
 import { authenticateUser } from "./authenticator";
 import { IMonitoringResultService } from '../services/interfaces/IMonitoringResultService';
+import { MonitoringResultDto } from '../db/model';
 
 /**
  * Class representing MonitoringResult, responsible for monitoring result REST calls
@@ -32,7 +33,16 @@ export class MonitoringResultController implements IBaseController {
         this.server.get("/monitoring/:id", async (request: Request, response: Response) => {
             let userId = await authenticateUser(request, response, this.userService);
             if (!userId) return;
-            response.end("Get All MonitoringResults called, Implementation TODO!");
+            let sendResponse = (statusCode: number, payload: any) => {
+                response.status(statusCode);
+                response.end(payload);
+            }
+            try {
+                let results: MonitoringResultDto[] = await this.monitoringResultService.selectLast10ResultsForEndpoint(request.params.id, userId);
+                sendResponse(200, JSON.stringify(results));
+            } catch (_) {
+                sendResponse(404, "");
+            }
         });
     }
 }

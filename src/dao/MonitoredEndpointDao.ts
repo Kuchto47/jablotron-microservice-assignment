@@ -27,15 +27,19 @@ export class MonitoredEndpointDao implements IMonitoredEndpointDao {
                 }
             );
         });
-        
     }
 
-    public selectAllMonitoredEndpoints(): Promise<MonitoredEndpointDto[]> {
-        return new Promise<MonitoredEndpointDto[]>((resolve, reject) => {
-            this.db.query(`SELECT * FROM ${this.TABLE_NAME}`, (err: MysqlError, results: MonitoredEndpointDto[]) => {
-                if (err) reject(err);
-                else resolve(results);
-            });
+    public async selectMonitoredEndpointById(endpointId: number): Promise<MonitoredEndpointDto> {
+        return new Promise<MonitoredEndpointDto>((resolve, reject) => {
+            this.db.query(
+                `SELECT * FROM ${this.TABLE_NAME}\
+                WHERE id = ${endpointId}`,
+                (err: MysqlError, results: MonitoredEndpointDto[]) => {
+                    if (err) reject(err);
+                    else if (results.length !== 1) reject();
+                    else resolve(results[0]);
+                }
+            );
         });
     }
 

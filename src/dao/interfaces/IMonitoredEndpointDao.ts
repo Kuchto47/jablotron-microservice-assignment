@@ -11,11 +11,13 @@ export interface IMonitoredEndpointDao {
     insertMonitoredEndpoint(endpoint: MonitoredEndpointDto): Promise<number>;
 
     /**
-     * Selects All Endpoints from DB.
+     * Retrieves specific monitored endpoint
      * 
-     * @returns all monitored endpoints from DB
+     * @param endpointId ID of endpoint to retrieve
+     * 
+     * @returns Monitored Endpoint
      */
-    selectAllMonitoredEndpoints(): Promise<MonitoredEndpointDto[]>;
+    selectMonitoredEndpointById(endpointId: number): Promise<MonitoredEndpointDto>;
 
     /**
      * Select all Endpoints for owner with given ID
