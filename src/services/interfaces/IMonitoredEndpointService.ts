@@ -27,7 +27,7 @@ export interface IMonitoredEndpointService {
      * 
      * @returns List of Monitored Endpoints
      */
-     selectAllEndpoints(): Promise<MonitoredEndpointDto[]>;
+    selectAllEndpoints(): Promise<MonitoredEndpointDto[]>;
 
     /**
      * Updates endpoint with new data
@@ -36,9 +36,22 @@ export interface IMonitoredEndpointService {
      * 
      * @param endpointId endpoint which should be updated
      * 
+     * @param userId ID of requester
+     * 
      * @returns true if correctly updated, false otherwise
      */
     updateEndpoint(data: MonitoredEndpointPayload, endpointId: number, userId: number): Promise<boolean>;
+
+    /**
+     * Updates endpoint with new data
+     * 
+     * @param date new last checked date
+     * 
+     * @param endpointId endpoint which should be updated
+     * 
+     * @returns true if correctly updated, false otherwise
+     */
+     updateEndpointsLastCheckDate(date: string, endpointId: number): Promise<boolean>;
 
     /**
      * Deletes MonitoredEndpoint from DB

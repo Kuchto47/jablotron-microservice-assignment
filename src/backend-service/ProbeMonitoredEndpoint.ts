@@ -1,6 +1,8 @@
 import { IProbeMonitoredEndpoint } from './interfaces/IProbeMonitoredEndpoint';
 import { IMonitoringResultService } from '../services/interfaces/IMonitoringResultService';
 import { IMonitoredEndpointService } from '../services/interfaces/IMonitoredEndpointService';
+import { MonitoringResultDto } from '../db/model';
+import { convertDateToDbFriendlyFormat } from '../helpers';
 
 export class ProbeMonitoredEndpoint implements IProbeMonitoredEndpoint {
 
@@ -12,8 +14,13 @@ export class ProbeMonitoredEndpoint implements IProbeMonitoredEndpoint {
      * @param url url to monitor
      * 
      * @param intervalTime how many seconds between 2 monitorings
+     * 
+     * @param monitoredEndpointService
+     * 
+     * @param monitoringResultService
      */
     constructor(
+        private readonly endpointId: number,
         private url: string,
         private intervalTime: number,
         private readonly monitoringResultService: IMonitoringResultService,
@@ -31,8 +38,19 @@ export class ProbeMonitoredEndpoint implements IProbeMonitoredEndpoint {
     }
 
     private setIntervalFn() {
-        this.intervalFn = setInterval(() => {
-
+        this.intervalFn = setInterval(async () => {
+            //fetch url...
+            let date: string = convertDateToDbFriendlyFormat(new Date());
+            let result: MonitoringResultDto = {
+                checkDate: date,
+                responseCode: 200, //todo
+                payloadReturned: "", //todo
+                monitoredEndpointId: this.endpointId
+            };
+            let newMonitoringResultId = await this.monitoringResultService.insertResult(result);
+            let monitoredEndpointUpdated = await this.monitoredEndpointService.updateEndpointsLastCheckDate(date, this.endpointId);
+            console.log(`New monitoring result created, ID ${newMonitoringResultId}`);
+            console.log(`Endpoint with ID ${this.endpointId} ${monitoredEndpointUpdated ? 'successfully' : 'was not'} updated`);
         }, this.intervalTime);
     }
 

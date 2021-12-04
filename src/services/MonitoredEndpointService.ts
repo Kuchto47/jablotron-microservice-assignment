@@ -41,6 +41,16 @@ export class MonitoredEndpointService implements IMonitoredEndpointService {
         }
     }
 
+    public async updateEndpointsLastCheckDate(date: string, endpointId: number): Promise<boolean> {
+        try {
+            let endpoint = await this.monitoredEndpointDao.selectMonitoredEndpointById(endpointId);
+            endpoint.lastCheckDate = date;
+            return await this.monitoredEndpointDao.updateMonitoredEndpoint(endpoint);
+        } catch(_) {
+            return false;
+        }
+    }
+
     public async deleteEndpoint(endpointId: number, userId: number): Promise<boolean> {
         try {
             let ownedEndpoints = await this.monitoredEndpointDao.selectMonitoredEndpointsForUser(userId);
