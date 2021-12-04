@@ -39,7 +39,7 @@ export class StartUp {
         this.prepareDb();
         this.registerDaos();
         this.registerFacades();
-        //this.startMonitoringEndpoints();
+        this.startMonitoringEndpoints();
         this.registerControllers(server);
     }
 

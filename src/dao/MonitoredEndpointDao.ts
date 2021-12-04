@@ -1,4 +1,4 @@
-import { Connection, MysqlError } from 'mysql';
+import { Connection, MysqlError, escape } from 'mysql';
 import { MonitoredEndpointDto } from '../db/model';
 import { IMonitoredEndpointDao } from './interfaces/IMonitoredEndpointDao';
 
@@ -20,7 +20,8 @@ export class MonitoredEndpointDao implements IMonitoredEndpointDao {
             this.db.query(
                 `INSERT INTO ${this.TABLE_NAME}\
                 (name, url, creationDate, monitoredInterval, ownerId)\
-                VALUES ("${endpoint.name}", "${endpoint.url}", "${endpoint.creationDate}", "${endpoint.monitoredInterval}", "${endpoint.ownerId}")`,
+                VALUES (${escape(endpoint.name)}, "${endpoint.url}",\
+                "${endpoint.creationDate}", "${endpoint.monitoredInterval}", "${endpoint.ownerId}")`,
                 (err: MysqlError, results: any) => {
                     if (err) reject(err);
                     else resolve(results.insertId);
@@ -87,7 +88,7 @@ export class MonitoredEndpointDao implements IMonitoredEndpointDao {
         return new Promise<boolean>((resolve) => {
             this.db.query(
                 `UPDATE ${this.TABLE_NAME}\
-                SET name = '${endpoint.name}',\
+                SET name = ${escape(endpoint.name)},\
                 url = '${endpoint.url}',\
                 monitoredInterval = ${endpoint.monitoredInterval}\
                 WHERE id = ${endpoint.id}`,
@@ -95,6 +96,19 @@ export class MonitoredEndpointDao implements IMonitoredEndpointDao {
                     resolve(!err);
                 }
             )
+        });
+    }
+
+    public updateMonitoredEndpointsLastCheckDate(date: string, id: number): Promise<boolean> {
+        return new Promise<boolean>((resolve) => {
+            this.db.query(
+                `UPDATE ${this.TABLE_NAME}\
+                SET lastCheckDate = "${date}"\
+                WHERE id = ${id}`,
+                (err: MysqlError, _: any) => {
+                    resolve(!err);
+                }
+            );
         });
     }
 

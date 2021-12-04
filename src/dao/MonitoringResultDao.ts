@@ -1,4 +1,4 @@
-import { Connection, MysqlError } from 'mysql';
+import { Connection, MysqlError, escape } from 'mysql';
 import { MonitoringResultDto } from '../db/model';
 import { IMonitoringResultDao } from './interfaces/IMonitoringResultDao';
 
@@ -22,7 +22,7 @@ export class MonitoringResultDao implements IMonitoringResultDao {
                 `INSERT INTO ${this.TABLE_NAME}\
                 (checkDate, responseCode, payloadReturned, monitoredEndpointId)\
                 VALUES\
-                ("${monitoringResult.checkDate}", "${monitoringResult.responseCode}", "${monitoringResult.payloadReturned}", "${monitoringResult.monitoredEndpointId}")`,
+                ("${monitoringResult.checkDate}", "${monitoringResult.responseCode}", "${escape(monitoringResult.payloadReturned)}", "${monitoringResult.monitoredEndpointId}")`,
                 (err: MysqlError, results: any) => {
                     if (err) reject(err);
                     else resolve(results.insertId);

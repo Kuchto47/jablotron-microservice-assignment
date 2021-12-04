@@ -58,7 +58,7 @@ export class ProbeMonitoredEndpoint implements IProbeMonitoredEndpoint {
                 body = `I'm a teapot, error message: ${e.message}`;
                 this.persistMonitoringResult(date, statusCode, body);
             });
-        }, this.intervalTime);
+        }, this.intervalTime * 1000);
     }
 
     private async persistMonitoringResult(date: string, statusCode: number, payload: string): Promise<void> {

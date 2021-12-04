@@ -9,6 +9,8 @@ import { UserDao } from '../dao/UserDao';
  * Class responsible for creating and seeding data into DB
  */
 export class DbSetUp implements IDbSetUp {
+    //public static readonly MAX_PAYLOAD_SIZE: number = 1000;
+
     private _db: Connection;
 
     /**
@@ -96,7 +98,7 @@ export class DbSetUp implements IDbSetUp {
             (`id` int NOT NULL auto_increment comment 'primary key',\
             `checkDate` DateTime NOT NULL COMMENT 'date of check',\
             `responseCode` int NOT NULL COMMENT 'http response code',\
-            `payloadReturned` varchar(1000) NOT NULL COMMENT 'http response payload',\
+            `payloadReturned` longtext NOT NULL COMMENT 'http response payload',\
             `monitoredEndpointId` int NOT NULL COMMENT 'endpoint ID of monitoring result',\
             primary key(id),\
             CONSTRAINT fk_endpoint FOREIGN KEY (monitoredEndpointId)\

@@ -56,6 +56,17 @@ export interface IMonitoredEndpointDao {
     updateMonitoredEndpoint(endpoint: MonitoredEndpointDto): Promise<boolean>
 
     /**
+     * Updates Monitored Endpoint's lastCheckDate
+     * 
+     * @param date new date to be set
+     * 
+     * @param id Id of endpoint to update
+     * 
+     * @returns true if successful, otherwise false
+     */
+     updateMonitoredEndpointsLastCheckDate(date: string, id: number): Promise<boolean>
+
+    /**
      * Deletes endpoint from DB
      * 
      * @param id endpoint id to be deleted
