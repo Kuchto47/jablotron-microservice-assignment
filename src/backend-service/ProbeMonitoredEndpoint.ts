@@ -8,7 +8,7 @@ import { ResponseCode } from '../ResponseCode';
 
 export class ProbeMonitoredEndpoint implements IProbeMonitoredEndpoint {
 
-    private intervalFn: any;
+    private intervalFn: NodeJS.Timer;
 
     /**
      * Class constructor
@@ -44,7 +44,7 @@ export class ProbeMonitoredEndpoint implements IProbeMonitoredEndpoint {
     }
 
     private setIntervalFn() {
-        this.intervalFn = setInterval(async () => {
+        this.intervalFn = setInterval(() => {
             let statusCode: number;
             let body: string = "";
             let date: string = convertDateToDbFriendlyFormat(new Date());
@@ -66,10 +66,8 @@ export class ProbeMonitoredEndpoint implements IProbeMonitoredEndpoint {
     }
 
     private async persistMonitoringResult(date: string, statusCode: number, payload: string): Promise<void> {
-        let newMonitoringResultId = await this.monitoringResultService.insertResult(this.createMonitoringResult(date, statusCode, payload));
-        let monitoredEndpointUpdated = await this.monitoredEndpointService.updateEndpointsLastCheckDate(date, this.endpointId);
-        console.log(`New monitoring result created, ID ${newMonitoringResultId}`);
-        console.log(`Endpoint with ID ${this.endpointId} ${monitoredEndpointUpdated ? 'successfully' : 'was not'} updated`);
+        await this.monitoringResultService.insertResult(this.createMonitoringResult(date, statusCode, payload));
+        await this.monitoredEndpointService.updateEndpointsLastCheckDate(date, this.endpointId);
     }
 
     private createMonitoringResult(date: string, statusCode: number, payload: string): MonitoringResultDto {

@@ -8,6 +8,8 @@ export interface IProbeMonitoredEndpoint {
 
     /**
      * Cancels existing monitoring
+     * 
+     * Call before removal from Probe
      */
     cancelMonitoring(): void;
 }
