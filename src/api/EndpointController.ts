@@ -1,7 +1,7 @@
 import { Request, Server, Response } from "restify";
 import { MonitoredEndpointDto } from '../db/model';
 import { IBaseController } from './IBaseController';
-import { IEndpointService } from '../services/interfaces/IEndpointService';
+import { IMonitoredEndpointService } from '../services/interfaces/IMonitoredEndpointService';
 import { MonitoredEndpointPayload } from '../services/model';
 import { IUserService } from "../services/interfaces/IUserService";
 import { authenticateUser } from "./authenticator";
@@ -18,7 +18,7 @@ export class EndpointController implements IBaseController {
      */
     constructor(
         private readonly server: Server,
-        private readonly endpointService: IEndpointService,
+        private readonly endpointService: IMonitoredEndpointService,
         private readonly userService: IUserService
     ) {}
 
@@ -37,7 +37,7 @@ export class EndpointController implements IBaseController {
         this.server.get("/endpoints", async (request: Request, response: Response) => {
             let userId = await authenticateUser(request, response, this.userService);
             if (!userId) return;
-            let data: MonitoredEndpointDto[] = await this.endpointService.selectAllEndpoints(userId);
+            let data: MonitoredEndpointDto[] = await this.endpointService.selectAllEndpointsForUser(userId);
             response.end(JSON.stringify(data));
         });
     }

@@ -29,7 +29,7 @@ export class MonitoredEndpointDao implements IMonitoredEndpointDao {
         });
     }
 
-    public async selectMonitoredEndpointById(endpointId: number): Promise<MonitoredEndpointDto> {
+    public selectMonitoredEndpointById(endpointId: number): Promise<MonitoredEndpointDto> {
         return new Promise<MonitoredEndpointDto>((resolve, reject) => {
             this.db.query(
                 `SELECT * FROM ${this.TABLE_NAME}\
@@ -38,6 +38,18 @@ export class MonitoredEndpointDao implements IMonitoredEndpointDao {
                     if (err) reject(err);
                     else if (results.length !== 1) reject();
                     else resolve(results[0]);
+                }
+            );
+        });
+    }
+
+    public selectAllMonitoredEndpoints(): Promise<MonitoredEndpointDto[]> {
+        return new Promise<MonitoredEndpointDto[]>((resolve, reject) => {
+            this.db.query(
+                `SELECT * FROM ${this.TABLE_NAME}`,
+                (err: MysqlError, results: MonitoredEndpointDto[]) => {
+                    if (err) reject(err);
+                    else resolve(results);
                 }
             );
         });
@@ -56,7 +68,7 @@ export class MonitoredEndpointDao implements IMonitoredEndpointDao {
         });
     }
 
-    public async selectMonitoredEndpointWithIdForUser(endpointId: number, ownerId: number): Promise<MonitoredEndpointDto> {
+    public selectMonitoredEndpointWithIdForUser(endpointId: number, ownerId: number): Promise<MonitoredEndpointDto> {
         return new Promise<MonitoredEndpointDto>((resolve, reject) => {
             this.db.query(
                 `SELECT * FROM ${this.TABLE_NAME}\
@@ -71,7 +83,7 @@ export class MonitoredEndpointDao implements IMonitoredEndpointDao {
         });
     }
 
-    public async updateMonitoredEndpoint(endpoint: MonitoredEndpointDto): Promise<boolean> {
+    public updateMonitoredEndpoint(endpoint: MonitoredEndpointDto): Promise<boolean> {
         return new Promise<boolean>((resolve) => {
             this.db.query(
                 `UPDATE ${this.TABLE_NAME}\
@@ -86,7 +98,7 @@ export class MonitoredEndpointDao implements IMonitoredEndpointDao {
         });
     }
 
-    public async deleteEndpoint(id: number): Promise<boolean> {
+    public deleteEndpoint(id: number): Promise<boolean> {
         return new Promise<boolean>((resolve) => {
             this.db.query(
                 `DELETE FROM ${this.TABLE_NAME} WHERE id = ${id}`,

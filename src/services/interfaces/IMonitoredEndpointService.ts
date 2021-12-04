@@ -1,7 +1,7 @@
 import { MonitoredEndpointDto } from '../../db/model';
 import { MonitoredEndpointPayload } from '../model';
 
-export interface IEndpointService {
+export interface IMonitoredEndpointService {
     /**
      * Inserts sent payload into DB
      * 
@@ -20,7 +20,14 @@ export interface IEndpointService {
      * 
      * @returns List of Monitored Endpoints for given user
      */
-    selectAllEndpoints(userId: number): Promise<MonitoredEndpointDto[]>;
+    selectAllEndpointsForUser(userId: number): Promise<MonitoredEndpointDto[]>;
+
+    /**
+     * Retrieves all endpoints in DB
+     * 
+     * @returns List of Monitored Endpoints
+     */
+     selectAllEndpoints(): Promise<MonitoredEndpointDto[]>;
 
     /**
      * Updates endpoint with new data

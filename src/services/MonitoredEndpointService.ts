@@ -1,17 +1,21 @@
 import { IMonitoredEndpointDao } from '../dao/interfaces/IMonitoredEndpointDao';
 import { MonitoredEndpointDto } from '../db/model';
 import { MonitoredEndpointPayload } from './model';
-import { IEndpointService } from './interfaces/IEndpointService';
+import { IMonitoredEndpointService } from './interfaces/IMonitoredEndpointService';
 import { convertDateToDbFriendlyFormat } from '../helpers';
 
-export class EndpointService implements IEndpointService {
+export class MonitoredEndpointService implements IMonitoredEndpointService {
     /**
      * Class constructor
      */
     constructor(private readonly monitoredEndpointDao: IMonitoredEndpointDao) {}
 
-    public async selectAllEndpoints(userId: number): Promise<MonitoredEndpointDto[]> {
+    public async selectAllEndpointsForUser(userId: number): Promise<MonitoredEndpointDto[]> {
         return await this.monitoredEndpointDao.selectMonitoredEndpointsForUser(userId);
+    }
+
+    public async selectAllEndpoints(): Promise<MonitoredEndpointDto[]> {
+        return await this.monitoredEndpointDao.selectAllMonitoredEndpoints();
     }
 
     public async insertEndpoint(userId: number, payload: MonitoredEndpointPayload): Promise<number> {

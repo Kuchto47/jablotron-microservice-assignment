@@ -1,13 +1,34 @@
+import { IMonitoredEndpointService } from "../services/interfaces/IMonitoredEndpointService";
+import { IMonitoringResultService } from "../services/interfaces/IMonitoringResultService";
 import { IEndpointProbe } from "./IEndpointProbe";
+import { ProbeMonitoredEndpoint } from "./ProbeMonitoredEndpoint";
 
 export class EndpointProbe implements IEndpointProbe {
+
+    private monitoredEndpoints: Map<number, ProbeMonitoredEndpoint>;
 
     /**
      * Class constructor
      */
-    constructor() {}
+    constructor(
+        private readonly monitoredEndpointService: IMonitoredEndpointService,
+        private readonly monitoringResultService: IMonitoringResultService
+    ) {
+        this.monitoredEndpoints = new Map<number, ProbeMonitoredEndpoint>();
+    }
 
-    public start(): void {
+    public async start(): Promise<void> {
+        let allEndpoints = await this.monitoredEndpointService.selectAllEndpoints();
+        allEndpoints.forEach(endpoint => {
+            this.monitoredEndpoints.set(
+                endpoint.id,
+                new ProbeMonitoredEndpoint(
+                    endpoint.url,
+                    endpoint.monitoredInterval,
+                    this.monitoringResultService.insertResult
+                )
+            );
+        });
         // Get all monitored endpoints.
 
         // For each, store them in a map <id, {monitoredEndpoint(url, intervalTime is enough), interval(fn)}>,

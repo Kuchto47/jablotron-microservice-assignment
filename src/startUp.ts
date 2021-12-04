@@ -10,8 +10,8 @@ import { UserDao } from './dao/UserDao';
 import { IUserDao } from './dao/interfaces/IUserDao';
 import { IMonitoredEndpointDao } from './dao/interfaces/IMonitoredEndpointDao';
 import { MonitoredEndpointDao } from './dao/MonitoredEndpointDao';
-import { IEndpointService } from './services/interfaces/IEndpointService';
-import { EndpointService } from './services/EndpointService';
+import { IMonitoredEndpointService } from './services/interfaces/IMonitoredEndpointService';
+import { MonitoredEndpointService } from './services/MonitoredEndpointService';
 import { IMonitoringResultService } from './services/interfaces/IMonitoringResultService';
 import { MonitoringResultService } from './services/MonitoringResultService';
 import { IUserService } from "./services/interfaces/IUserService";
@@ -22,7 +22,7 @@ import { EndpointProbe } from "./backend-service/EndpointProbe";
 import { IEndpointProbe } from "./backend-service/IEndpointProbe";
 
 export class StartUp {
-    private static monitoredEndpointService: IEndpointService;
+    private static monitoredEndpointService: IMonitoredEndpointService;
     private static monitoringResultService: IMonitoringResultService;
     private static userService: IUserService;
 
@@ -61,13 +61,13 @@ export class StartUp {
     }
 
     private static registerFacades(): void {
-        this.monitoredEndpointService = new EndpointService(this.monitoredEndpointDao);
+        this.monitoredEndpointService = new MonitoredEndpointService(this.monitoredEndpointDao);
         this.monitoringResultService = new MonitoringResultService(this.monitoringResultDao, this.monitoredEndpointDao);
         this.userService = new UserService(this.userDao);
     }
 
     private static startMonitoringEndpoints(): void {
-        this.monitoredEndpointsProbe = new EndpointProbe();
+        this.monitoredEndpointsProbe = new EndpointProbe(this.monitoredEndpointService, this.monitoringResultService);
         this.monitoredEndpointsProbe.start();
     }
 
