@@ -4,7 +4,6 @@ import { DbSetUp } from "./db/DbSetUp";
 import { Server } from "restify";
 import { EndpointController } from "./api/EndpointController";
 import { IBaseController } from './api/IBaseController';
-import { UserController } from './api/UserController';
 import { MonitoringResultController } from './api/MonitoringResultController';
 import { IDbConnection } from './db/interfaces/IDbConnection';
 import { UserDao } from './dao/UserDao';
@@ -76,7 +75,6 @@ export class StartUp {
         /*TODO: Controllers should get on-methods of EndpointProbe as dependencies too */
         let controllers: IBaseController[] = [
             new EndpointController(server, this.monitoredEndpointService, this.userService),
-            new UserController(server),
             new MonitoringResultController(server, this.userService, this.monitoringResultService)
         ];
     
