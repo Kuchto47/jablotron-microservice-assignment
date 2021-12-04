@@ -63,7 +63,7 @@ export class StartUp {
 
     private static registerFacades(): void {
         this.monitoredEndpointService = new EndpointService(this.monitoredEndpointDao);
-        this.monitoringResultService = new MonitoringResultService(this.monitoringResultDao);
+        this.monitoringResultService = new MonitoringResultService(this.monitoringResultDao, this.monitoredEndpointDao);
         this.userService = new UserService(this.userDao);
     }
 
