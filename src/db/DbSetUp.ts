@@ -9,8 +9,6 @@ import { UserDao } from '../dao/UserDao';
  * Class responsible for creating and seeding data into DB
  */
 export class DbSetUp implements IDbSetUp {
-    //public static readonly MAX_PAYLOAD_SIZE: number = 1000;
-
     private _db: Connection;
 
     /**
