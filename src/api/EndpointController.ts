@@ -5,6 +5,7 @@ import { IEndpointService } from '../services/interfaces/IEndpointService';
 import { MonitoredEndpointPayload } from '../services/model';
 import { IUserService } from "../services/interfaces/IUserService";
 import { authenticateUser } from "./authenticator";
+import { ResponseCode } from './ResponseCode';
 
 /**
  * Class representing EndpointController responsible for Endpoint REST calls
@@ -62,7 +63,7 @@ export class EndpointController implements IBaseController {
             if (!userId) return;
             let postData: MonitoredEndpointPayload = request.body as MonitoredEndpointPayload;
             let updateResult = await this.endpointService.updateEndpoint(postData, Number.parseInt(request.params.id), userId);
-            response.status(updateResult ? 200 : 404);
+            response.status(updateResult ? ResponseCode.OK : ResponseCode.NOT_FOUND);
             response.end(`Endpoint with Id ${request.params.id} ${updateResult ? 'was' : 'wasn\'t'} updated`);
         });
     }
@@ -75,7 +76,7 @@ export class EndpointController implements IBaseController {
             let userId = await authenticateUser(request, response, this.userService);
             if (!userId) return;
             let deletionResult = await this.endpointService.deleteEndpoint(Number.parseInt(request.params.id), userId);
-            response.status(deletionResult ? 200 : 404);
+            response.status(deletionResult ? ResponseCode.OK : ResponseCode.NOT_FOUND);
             response.end(`Endpoint with Id ${request.params.id} ${deletionResult ? 'was' : 'wasn\'t'} deleted.`);
         });
     }
