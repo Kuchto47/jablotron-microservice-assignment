@@ -1,4 +1,4 @@
-import { IProbeMonitoredEndpoint } from './IProbeMonitoredEndpoint';
+import { IProbeMonitoredEndpoint } from './interfaces/IProbeMonitoredEndpoint';
 import { MonitoringResultDto } from '../db/model';
 
 export class ProbeMonitoredEndpoint implements IProbeMonitoredEndpoint {
@@ -25,14 +25,22 @@ export class ProbeMonitoredEndpoint implements IProbeMonitoredEndpoint {
         const updateTime: boolean = this.shouldUpdateIntervalTime(intervalTime);
         if (updateUrl) this.url = url;
         if (updateTime) this.intervalTime = intervalTime;
-        if (updateUrl || updateTime) //cancel interval function and create new one
-            return;
+        if (updateUrl || updateTime) this.refreshIntervalFn();
     }
 
     private setIntervalFn() {
         this.intervalFn = setInterval(() => {
 
         }, this.intervalTime);
+    }
+
+    private refreshIntervalFn() {
+        this.cancelIntervalFn();
+        this.setIntervalFn();
+    }
+
+    private cancelIntervalFn() {
+        clearInterval(this.intervalFn);
     }
 
     private shouldUpdateUrl(url: string): boolean {

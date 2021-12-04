@@ -1,6 +1,6 @@
 import { IMonitoredEndpointService } from "../services/interfaces/IMonitoredEndpointService";
 import { IMonitoringResultService } from "../services/interfaces/IMonitoringResultService";
-import { IEndpointProbe } from "./IEndpointProbe";
+import { IEndpointProbe } from "./interfaces/IEndpointProbe";
 import { ProbeMonitoredEndpoint } from "./ProbeMonitoredEndpoint";
 
 export class EndpointProbe implements IEndpointProbe {

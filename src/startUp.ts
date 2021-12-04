@@ -19,7 +19,7 @@ import { UserService } from "./services/UserService";
 import { IMonitoringResultDao } from "./dao/interfaces/IMonitoringResultDao";
 import { MonitoringResultDao } from "./dao/MonitoringResultDao";
 import { EndpointProbe } from "./backend-service/EndpointProbe";
-import { IEndpointProbe } from "./backend-service/IEndpointProbe";
+import { IEndpointProbe } from "./backend-service/interfaces/IEndpointProbe";
 
 export class StartUp {
     private static monitoredEndpointService: IMonitoredEndpointService;
