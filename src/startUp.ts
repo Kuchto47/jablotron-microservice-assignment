@@ -23,9 +23,9 @@ import { EndpointProbe } from "./backend-service/EndpointProbe";
 import { IEndpointProbe } from "./backend-service/IEndpointProbe";
 
 export class StartUp {
-    private static monitoredEndpointFacade: IEndpointService;
-    private static monitoringResultFacade: IMonitoringResultService;
-    private static userFacade: IUserService;
+    private static monitoredEndpointService: IEndpointService;
+    private static monitoringResultService: IMonitoringResultService;
+    private static userService: IUserService;
 
     private static monitoredEndpointDao: IMonitoredEndpointDao;
     private static monitoringResultDao: IMonitoringResultDao;
@@ -62,9 +62,9 @@ export class StartUp {
     }
 
     private static registerFacades(): void {
-        this.monitoredEndpointFacade = new EndpointService(this.monitoredEndpointDao);
-        this.monitoringResultFacade = new MonitoringResultService();
-        this.userFacade = new UserService(this.userDao);
+        this.monitoredEndpointService = new EndpointService(this.monitoredEndpointDao);
+        this.monitoringResultService = new MonitoringResultService(this.monitoringResultDao);
+        this.userService = new UserService(this.userDao);
     }
 
     private static startMonitoringEndpoints(): void {
@@ -75,9 +75,9 @@ export class StartUp {
     private static registerControllers(server: Server): void {
         /*TODO: Controllers should get on-methods of EndpointProbe as dependencies too */
         let controllers: IBaseController[] = [
-            new EndpointController(server, this.monitoredEndpointFacade, this.userFacade),
+            new EndpointController(server, this.monitoredEndpointService, this.userService),
             new UserController(server),
-            new MonitoringResultController(server)
+            new MonitoringResultController(server, this.userService, this.monitoringResultService)
         ];
     
         controllers.forEach((controller: IBaseController) => controller.register());

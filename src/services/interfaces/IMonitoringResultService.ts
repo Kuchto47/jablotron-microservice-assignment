@@ -11,11 +11,13 @@ export interface IMonitoringResultService {
     insertResult(payload: any): Promise<number>;
 
     /**
-     * Selects all monitoring results
+     * Selects last 10 monitoring results for given endpoint id owned by requesting user
      * 
-     * @param userAccessToken 
+     * @param endpointId requested endpoint's results
      * 
-     * @returns List of monitoring results
+     * @param userId user to whom endpoints shall belong to
+     * 
+     * @returns List of up to 10 monitoring results
      */
-    selectAllResults(userAccessToken: string): Promise<MonitoringResultDto[]>;
+     selectLast10ResultsForEndpoint(endpointId: number, userId: number): Promise<MonitoringResultDto[]>;
 }
