@@ -25,7 +25,8 @@ export class EndpointProbe implements IEndpointProbe {
                 new ProbeMonitoredEndpoint(
                     endpoint.url,
                     endpoint.monitoredInterval,
-                    this.monitoringResultService.insertResult
+                    this.monitoringResultService,
+                    this.monitoredEndpointService
                 )
             );
         });

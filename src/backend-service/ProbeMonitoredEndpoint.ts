@@ -1,5 +1,6 @@
 import { IProbeMonitoredEndpoint } from './interfaces/IProbeMonitoredEndpoint';
-import { MonitoringResultDto } from '../db/model';
+import { IMonitoringResultService } from '../services/interfaces/IMonitoringResultService';
+import { IMonitoredEndpointService } from '../services/interfaces/IMonitoredEndpointService';
 
 export class ProbeMonitoredEndpoint implements IProbeMonitoredEndpoint {
 
@@ -15,7 +16,8 @@ export class ProbeMonitoredEndpoint implements IProbeMonitoredEndpoint {
     constructor(
         private url: string,
         private intervalTime: number,
-        private persistResultFn: (payload: MonitoringResultDto) => Promise<number>
+        private readonly monitoringResultService: IMonitoringResultService,
+        private readonly monitoredEndpointService: IMonitoredEndpointService
     ) {
         this.setIntervalFn();
     }
