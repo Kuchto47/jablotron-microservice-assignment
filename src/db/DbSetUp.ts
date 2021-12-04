@@ -98,7 +98,7 @@ export class DbSetUp implements IDbSetUp {
             (`id` int NOT NULL auto_increment comment 'primary key',\
             `checkDate` DateTime NOT NULL COMMENT 'date of check',\
             `responseCode` int NOT NULL COMMENT 'http response code',\
-            `payloadReturned` longtext NOT NULL COMMENT 'http response payload',\
+            `payloadReturned` longblob NOT NULL COMMENT 'http response payload',\
             `monitoredEndpointId` int NOT NULL COMMENT 'endpoint ID of monitoring result',\
             primary key(id),\
             CONSTRAINT fk_endpoint FOREIGN KEY (monitoredEndpointId)\
