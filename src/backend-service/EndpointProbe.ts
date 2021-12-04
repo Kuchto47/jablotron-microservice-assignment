@@ -1,11 +1,12 @@
 import { IMonitoredEndpointService } from "../services/interfaces/IMonitoredEndpointService";
 import { IMonitoringResultService } from "../services/interfaces/IMonitoringResultService";
 import { IEndpointProbe } from "./interfaces/IEndpointProbe";
+import { IProbeMonitoredEndpoint } from "./interfaces/IProbeMonitoredEndpoint";
 import { ProbeMonitoredEndpoint } from "./ProbeMonitoredEndpoint";
 
 export class EndpointProbe implements IEndpointProbe {
 
-    private monitoredEndpoints: Map<number, ProbeMonitoredEndpoint>;
+    private monitoredEndpoints: Map<number, IProbeMonitoredEndpoint>;
 
     /**
      * Class constructor
@@ -14,7 +15,7 @@ export class EndpointProbe implements IEndpointProbe {
         private readonly monitoredEndpointService: IMonitoredEndpointService,
         private readonly monitoringResultService: IMonitoringResultService
     ) {
-        this.monitoredEndpoints = new Map<number, ProbeMonitoredEndpoint>();
+        this.monitoredEndpoints = new Map<number, IProbeMonitoredEndpoint>();
     }
 
     public async start(): Promise<void> {
@@ -34,30 +35,30 @@ export class EndpointProbe implements IEndpointProbe {
         console.log("Probe started...");
     }
 
-    // upon called, should request all monitored endpoints from DB
-
-        // then it should check already monitored endpoints and:
-        //      - remove those, that are missing in DB response (use case delete)
-        //          - close interval first, then remove from map
-
-        //      - do not touch those, that are both monitored already and in DB response, and url and interval are the same
-
-        //      - update those that are in db response and already monitored and are different in url and/or interval (use case update)
-        //          - close original interval and start new one with new value
-
-        //      - insert those that are in DB response and not in map (use case insert)
-        //          - start new interval for them
-
-    public onInsert(endpointId: number): void {
-        throw new Error("Method not implemented.");
+    public async onInsert(endpointId: number): Promise<void> {
+        let endpoint = await this.monitoredEndpointService.selectEndpointById(endpointId);
+        this.monitoredEndpoints.set(
+            endpointId,
+            new ProbeMonitoredEndpoint(
+                endpointId,
+                endpoint.url,
+                endpoint.monitoredInterval,
+                this.monitoringResultService,
+                this.monitoredEndpointService
+            )
+        );
     }
 
-    public onUpdate(endpointId: number): void {
-        throw new Error("Method not implemented.");
+    public async onUpdate(endpointId: number): Promise<void> {
+        let endpoint = await this.monitoredEndpointService.selectEndpointById(endpointId);
+        this.monitoredEndpoints
+            .get(endpointId)
+            .updateMetaData(endpoint.url, endpoint.monitoredInterval);
     }
 
-    public onDelete(endpointId: number): void {
-        throw new Error("Method not implemented.");
+    public async onDelete(endpointId: number): Promise<void> {
+        this.monitoredEndpoints.get(endpointId).cancelMonitoring();
+        this.monitoredEndpoints.delete(endpointId);
     }
 
 }

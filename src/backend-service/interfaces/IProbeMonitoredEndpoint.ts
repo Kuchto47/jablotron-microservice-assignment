@@ -5,4 +5,9 @@ export interface IProbeMonitoredEndpoint {
      * @param url new url to monitor
      */
     updateMetaData(url: string, intervalTime: number): void;
+
+    /**
+     * Cancels existing monitoring
+     */
+    cancelMonitoring(): void;
 }

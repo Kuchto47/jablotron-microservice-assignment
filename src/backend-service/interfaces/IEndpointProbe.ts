@@ -9,19 +9,19 @@ export interface IEndpointProbe {
      * 
      * @param endpointId ID of newly inserted endpoint to monitor
      */
-    onInsert(endpointId: number): void;
+    onInsert(endpointId: number): Promise<void>;
 
     /**
      * Load Endpoint with given ID from DB and update data for monitoring
      * 
      * @param endpointId ID of updated endpoint
      */
-    onUpdate(endpointId: number): void;
+    onUpdate(endpointId: number): Promise<void>;
 
     /**
      * Stop monitoring Endpoint with given ID and remove it from monitoring
      * 
      * @param endpointId ID of recently deleted endpoint
      */
-    onDelete(endpointId: number): void;
+    onDelete(endpointId: number): Promise<void>;
 }

@@ -39,6 +39,10 @@ export class ProbeMonitoredEndpoint implements IProbeMonitoredEndpoint {
         if (updateUrl || updateTime) this.refreshIntervalFn();
     }
 
+    public cancelMonitoring(): void {
+        this.cancelIntervalFn();
+    }
+
     private setIntervalFn() {
         this.intervalFn = setInterval(async () => {
             let statusCode: number;

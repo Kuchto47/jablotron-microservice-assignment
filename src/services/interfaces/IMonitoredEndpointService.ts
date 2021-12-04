@@ -30,6 +30,13 @@ export interface IMonitoredEndpointService {
     selectAllEndpoints(): Promise<MonitoredEndpointDto[]>;
 
     /**
+     * Retrieves endpoint by Id
+     * 
+     * @returns Monitored Endpoints
+     */
+     selectEndpointById(id: number): Promise<MonitoredEndpointDto>;
+
+    /**
      * Updates endpoint with new data
      * 
      * @param data data to persist

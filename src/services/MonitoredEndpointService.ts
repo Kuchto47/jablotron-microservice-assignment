@@ -18,6 +18,10 @@ export class MonitoredEndpointService implements IMonitoredEndpointService {
         return await this.monitoredEndpointDao.selectAllMonitoredEndpoints();
     }
 
+    selectEndpointById(id: number): Promise<MonitoredEndpointDto> {
+        throw new Error('Method not implemented.');
+    }
+
     public async insertEndpoint(userId: number, payload: MonitoredEndpointPayload): Promise<number> {
         let monitoredEndpoint: MonitoredEndpointDto = {
             name: payload.name,

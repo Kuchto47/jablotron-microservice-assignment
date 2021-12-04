@@ -20,9 +20,9 @@ export class EndpointController implements IBaseController {
         private readonly server: Server,
         private readonly endpointService: IMonitoredEndpointService,
         private readonly userService: IUserService,
-        private readonly onInsert: (endpointId: number) => void,
-        private readonly onUpdate: (endpointId: number) => void,
-        private readonly onDelete: (endpointId: number) => void
+        private readonly onInsert: (endpointId: number) => Promise<void>,
+        private readonly onUpdate: (endpointId: number) => Promise<void>,
+        private readonly onDelete: (endpointId: number) => Promise<void>
     ) {}
 
     
@@ -66,8 +66,10 @@ export class EndpointController implements IBaseController {
         this.server.put("/endpoints/:id", async (request: Request, response: Response) => {
             let userId = await authenticateUser(request, response, this.userService);
             if (!userId) return;
+            let endpointId = Number.parseInt(request.params.id);
             let postData: MonitoredEndpointPayload = request.body as MonitoredEndpointPayload;
-            let updateResult = await this.endpointService.updateEndpoint(postData, Number.parseInt(request.params.id), userId);
+            let updateResult = await this.endpointService.updateEndpoint(postData, endpointId, userId);
+            if (updateResult) this.onUpdate(endpointId);
             response.status(updateResult ? ResponseCode.OK : ResponseCode.NOT_FOUND);
             response.end(`Endpoint with Id ${request.params.id} ${updateResult ? 'was' : 'wasn\'t'} updated`);
         });
@@ -80,7 +82,9 @@ export class EndpointController implements IBaseController {
         this.server.del("/endpoints/:id", async (request: Request, response: Response) => {
             let userId = await authenticateUser(request, response, this.userService);
             if (!userId) return;
-            let deletionResult = await this.endpointService.deleteEndpoint(Number.parseInt(request.params.id), userId);
+            let endpointId = Number.parseInt(request.params.id);
+            let deletionResult = await this.endpointService.deleteEndpoint(endpointId, userId);
+            if (deletionResult) this.onDelete(endpointId);
             response.status(deletionResult ? ResponseCode.OK : ResponseCode.NOT_FOUND);
             response.end(`Endpoint with Id ${request.params.id} ${deletionResult ? 'was' : 'wasn\'t'} deleted.`);
         });
