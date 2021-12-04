@@ -7,6 +7,8 @@ import { IMonitoredEndpointDao } from './interfaces/IMonitoredEndpointDao';
  */
 export class EndpointDao implements IMonitoredEndpointDao {
 
+    private readonly TABLE_NAME: string = "MonitoredEndpoint";
+
     /**
      * EndpointDao constructor
      * @param db DB Connection
@@ -16,12 +18,12 @@ export class EndpointDao implements IMonitoredEndpointDao {
     public insertMonitoredEndpoint(endpoint: MonitoredEndpointDto): Promise<number> {
         return new Promise<number>((resolve, reject) => {
             this.db.query(
-                `INSERT INTO MonitoredEndpoint\
+                `INSERT INTO ${this.TABLE_NAME}\
                 (name, url, creationDate, monitoredInterval, ownerId)\
                 VALUES ("${endpoint.name}", "${endpoint.url}", "${endpoint.creationDate}", "${endpoint.monitoredInterval}", "${endpoint.ownerId}")`,
                 (err: MysqlError, results: any) => {
                     if (err) reject(err);
-                    resolve(results.insertId);
+                    else resolve(results.insertId);
                 }
             );
         });
@@ -30,9 +32,9 @@ export class EndpointDao implements IMonitoredEndpointDao {
 
     public selectAllMonitoredEndpoints(): Promise<MonitoredEndpointDto[]> {
         return new Promise<MonitoredEndpointDto[]>((resolve, reject) => {
-            this.db.query("SELECT * FROM MonitoredEndpoint", (err: MysqlError, results: MonitoredEndpointDto[]) => {
+            this.db.query(`SELECT * FROM ${this.TABLE_NAME}`, (err: MysqlError, results: MonitoredEndpointDto[]) => {
                 if (err) reject(err);
-                resolve(results);
+                else resolve(results);
             });
         });
     }
@@ -40,20 +42,50 @@ export class EndpointDao implements IMonitoredEndpointDao {
     public selectMonitoredEndpointsForUser(ownerId: number): Promise<MonitoredEndpointDto[]> {
         return new Promise<MonitoredEndpointDto[]>((resolve, reject) => {
             this.db.query(
-                `SELECT * FROM MonitoredEndpoint\
+                `SELECT * FROM ${this.TABLE_NAME}\
                 WHERE ownerId = ${ownerId}`,
                 (err: MysqlError, results: MonitoredEndpointDto[]) => {
                     if (err) reject(err);
-                    resolve(results);
+                    else resolve(results);
                 }
             );
+        });
+    }
+
+    public async selectMonitoredEndpointWithIdForUser(endpointId: number, ownerId: number): Promise<MonitoredEndpointDto> {
+        return new Promise<MonitoredEndpointDto>((resolve, reject) => {
+            this.db.query(
+                `SELECT * FROM ${this.TABLE_NAME}\
+                WHERE id = ${endpointId} AND\
+                ownerId = ${ownerId}`,
+                (err: MysqlError, results: MonitoredEndpointDto[]) => {
+                    if (err) reject(err);
+                    else if (results.length !== 1) reject();
+                    else resolve(results[0]);
+                }
+            );
+        });
+    }
+
+    public async updateMonitoredEndpoint(endpoint: MonitoredEndpointDto): Promise<boolean> {
+        return new Promise<boolean>((resolve) => {
+            this.db.query(
+                `UPDATE ${this.TABLE_NAME}\
+                SET name = '${endpoint.name}',\
+                url = '${endpoint.url}',\
+                monitoredInterval = ${endpoint.monitoredInterval}\
+                WHERE id = ${endpoint.id}`,
+                (err: MysqlError, _: any) => {
+                    resolve(!err);
+                }
+            )
         });
     }
 
     public async deleteEndpoint(id: number): Promise<boolean> {
         return new Promise<boolean>((resolve) => {
             this.db.query(
-                `DELETE FROM MonitoredEndpoint WHERE id = ${id}`,
+                `DELETE FROM ${this.TABLE_NAME} WHERE id = ${id}`,
                 (err: MysqlError, _: any) => {
                     resolve(!err);
                 }

@@ -27,6 +27,26 @@ export interface IMonitoredEndpointDao {
     selectMonitoredEndpointsForUser(ownerId: number): Promise<MonitoredEndpointDto[]>;
 
     /**
+     * Retrieves Monitored Endpoint with given ID belonging to given user
+     * 
+     * @param endpointId endpoint to retrieve
+     * 
+     * @param ownerId id of accepted owner
+     * 
+     * @returns Monitored Endpoint if criteria are fulfilled
+     */
+    selectMonitoredEndpointWithIdForUser(endpointId: number, ownerId: number): Promise<MonitoredEndpointDto>;
+
+    /**
+     * Updates Monitored Endpoint
+     * 
+     * @param endpoint endpoint to update
+     * 
+     * @returns true if successful, otherwise false
+     */
+    updateMonitoredEndpoint(endpoint: MonitoredEndpointDto): Promise<boolean>
+
+    /**
      * Deletes endpoint from DB
      * 
      * @param id endpoint id to be deleted

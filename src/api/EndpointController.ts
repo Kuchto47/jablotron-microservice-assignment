@@ -33,12 +33,9 @@ export class EndpointController implements IBaseController {
      */
     private registerGetAll(): void {
         this.server.get("/endpoints", async (request: Request, response: Response) => {
-            let authenticationResult = await this.authenticateUser(request.headers.authorization);
-            if (!authenticationResult) {
-                this.unathorized(response);
-                return;
-            }
-            let data: MonitoredEndpointDto[] = await this.endpointFacade.selectAllEndpoints(authenticationResult);
+            let userId = await this.authUser(request, response);
+            if (!userId) return;
+            let data: MonitoredEndpointDto[] = await this.endpointFacade.selectAllEndpoints(userId);
             response.end(JSON.stringify(data));
         });
     }
@@ -48,13 +45,10 @@ export class EndpointController implements IBaseController {
      */
     private registerInsertEndpoint(): void {
         this.server.post("/endpoints", async (request: Request, response: Response) => {
-            let authenticatedUserId = await this.authenticateUser(request.headers.authorization);
-            if (!authenticatedUserId) {
-                this.unathorized(response);
-                return;
-            }
-            let postData: MonitoredEndpointDto = request.body;
-            response.end(`${await this.endpointFacade.insertEndpoint(authenticatedUserId, postData)}`);
+            let userId = await this.authUser(request, response);
+            if (!userId) return;
+            let postData: MonitoredEndpointPayload = request.body as MonitoredEndpointPayload;
+            response.end(`${await this.endpointFacade.insertEndpoint(userId, postData)}`);
         });
     }
 
@@ -63,9 +57,10 @@ export class EndpointController implements IBaseController {
      */
     private registerUpdateEndpoint(): void {
         this.server.put("/endpoints/:id", async (request: Request, response: Response) => {
-            /*TODO Authentication & Authorization*/
-            let postData: MonitoredEndpointPayload = request.body;
-            response.end(`${await this.endpointFacade.updateEndpoint(postData, Number.parseInt(request.params.id))}`);
+            let userId = await this.authUser(request, response);
+            if (!userId) return;
+            let postData: MonitoredEndpointPayload = request.body as MonitoredEndpointPayload;
+            response.end(`${await this.endpointFacade.updateEndpoint(postData, Number.parseInt(request.params.id), userId)}`);
         });
     }
 
@@ -74,19 +69,18 @@ export class EndpointController implements IBaseController {
      */
     private registerDeleteEndpointById(): void {
         this.server.del("/endpoints/:id", async (request: Request, response: Response) => {
-            let authenticatedUserId = await this.authenticateUser(request.headers.authorization);
-            if (!authenticatedUserId) {
-                this.unathorized(response);
-                return;
-            }
-            let deletionResult = await this.endpointFacade.deleteEndpoint(Number.parseInt(request.params.id), authenticatedUserId);
+            let userId = await this.authUser(request, response);
+            if (!userId) return;
+            let deletionResult = await this.endpointFacade.deleteEndpoint(Number.parseInt(request.params.id), userId);
             response.status(deletionResult ? 200 : 404);
             response.end(`Endpoint with Id ${request.params.id} ${deletionResult ? 'was' : 'wasn\'t'} deleted.`);
         });
     }
 
-    private async authenticateUser(accessToken: string): Promise<number | null> {
-        return await this.userFacade.authenticate(accessToken);
+    private async authUser(request: Request, response: Response): Promise<number | null> {
+        let authenticatedUserId = await this.userFacade.authenticate(request.headers.authorization);
+        if (!authenticatedUserId) this.unathorized(response);
+        return authenticatedUserId;
     }
 
     private unathorized(response: Response): void {

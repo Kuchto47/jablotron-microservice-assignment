@@ -31,7 +31,7 @@ export interface IEndpointFacade {
      * 
      * @returns true if correctly updated, false otherwise
      */
-    updateEndpoint(data: any, endpointId: number): Promise<boolean>;
+    updateEndpoint(data: MonitoredEndpointPayload, endpointId: number, userId: number): Promise<boolean>;
 
     /**
      * Deletes MonitoredEndpoint from DB

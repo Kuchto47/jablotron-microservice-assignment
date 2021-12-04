@@ -25,8 +25,16 @@ export class EndpointFacade implements IEndpointFacade {
         return await this.endpointDao.insertMonitoredEndpoint(monitoredEndpoint);
     }
 
-    public async updateEndpoint(data: any, endpointId: number): Promise<boolean> {
-        throw new Error('Method not implemented.');
+    public async updateEndpoint(data: MonitoredEndpointPayload, endpointId: number, userId: number): Promise<boolean> {
+        try {
+            let ownedEndpoint = await this.endpointDao.selectMonitoredEndpointWithIdForUser(endpointId, userId);
+            ownedEndpoint.name = data.name ?? ownedEndpoint.name;
+            ownedEndpoint.monitoredInterval = data.monitoredInterval ?? ownedEndpoint.monitoredInterval;
+            ownedEndpoint.url = data.url ?? ownedEndpoint.url;
+            return await this.endpointDao.updateMonitoredEndpoint(ownedEndpoint);
+        } catch(_) {
+            return false;
+        }
     }
 
     public async deleteEndpoint(endpointId: number, userId: number): Promise<boolean> {
