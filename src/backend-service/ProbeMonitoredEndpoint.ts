@@ -3,8 +3,8 @@ import { IMonitoringResultService } from '../services/interfaces/IMonitoringResu
 import { IMonitoredEndpointService } from '../services/interfaces/IMonitoredEndpointService';
 import { MonitoringResultDto } from '../db/model';
 import { convertDateToDbFriendlyFormat } from '../helpers';
-import { get, IncomingMessage } from 'http';
 import { ResponseCode } from '../ResponseCode';
+import axios from 'axios';
 
 export class ProbeMonitoredEndpoint implements IProbeMonitoredEndpoint {
 
@@ -44,24 +44,20 @@ export class ProbeMonitoredEndpoint implements IProbeMonitoredEndpoint {
     }
 
     private setIntervalFn() {
-        this.intervalFn = setInterval(() => {
+        this.intervalFn = setInterval(async () => {
             let statusCode: number;
             let body: string = "";
             let date: string = convertDateToDbFriendlyFormat(new Date());
-            get(this.url, (response: IncomingMessage) => {
-                statusCode = response.statusCode;
-                response.setEncoding('utf8');
-                response.on("data", (chunk: any) => {
-                    body += chunk;
-                });
-                response.on("end", () => {
-                    this.persistMonitoringResult(date, statusCode, body);
-                });
-            }).on("error", (e: Error) => {
+            try {
+                let response = await axios.get(this.url);
+                statusCode = response.status;
+                body = response.data;
+            } catch(e) {
                 statusCode = ResponseCode.TEAPOT;
-                body = `I'm a teapot, error message: ${e.message}`;
+                body = "I'm a teapot";
+            } finally {
                 this.persistMonitoringResult(date, statusCode, body);
-            });
+            }
         }, this.intervalTime * 1000);
     }
 
