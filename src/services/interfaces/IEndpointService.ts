@@ -1,7 +1,7 @@
 import { MonitoredEndpointDto } from '../../db/model';
 import { MonitoredEndpointPayload } from '../model';
 
-export interface IEndpointFacade {
+export interface IEndpointService {
     /**
      * Inserts sent payload into DB
      * 

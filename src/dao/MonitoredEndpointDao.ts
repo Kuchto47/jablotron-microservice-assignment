@@ -5,7 +5,7 @@ import { IMonitoredEndpointDao } from './interfaces/IMonitoredEndpointDao';
 /**
  * Class representing Data Access Object for MonitoredEndpoint
  */
-export class EndpointDao implements IMonitoredEndpointDao {
+export class MonitoredEndpointDao implements IMonitoredEndpointDao {
 
     private readonly TABLE_NAME: string = "MonitoredEndpoint";
 

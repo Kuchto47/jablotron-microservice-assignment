@@ -1,7 +1,7 @@
 import { MonitoringResultDto } from '../db/model';
-import { IMonitoringResultFacade } from './interfaces/IMonitoringResultFacade';
+import { IMonitoringResultService } from './interfaces/IMonitoringResultService';
 
-export class MonitoringResultFacade implements IMonitoringResultFacade {
+export class MonitoringResultService implements IMonitoringResultService {
 
     /**
      * Class constructor

@@ -10,22 +10,22 @@ import { IDbConnection } from './db/interfaces/IDbConnection';
 import { UserDao } from './dao/UserDao';
 import { IUserDao } from './dao/interfaces/IUserDao';
 import { IMonitoredEndpointDao } from './dao/interfaces/IMonitoredEndpointDao';
-import { EndpointDao } from './dao/EndpointDao';
-import { IEndpointFacade } from './facades/interfaces/IEndpointFacade';
-import { EndpointFacade } from './facades/EndpointFacade';
-import { IMonitoringResultFacade } from './facades/interfaces/IMonitoringResultFacade';
-import { MonitoringResultFacade } from './facades/MonitoringResultFacade';
-import { IUserFacade } from "./facades/interfaces/IUserFacade";
-import { UserFacade } from "./facades/UserFacade";
+import { MonitoredEndpointDao } from './dao/MonitoredEndpointDao';
+import { IEndpointService } from './services/interfaces/IEndpointService';
+import { EndpointService } from './services/EndpointService';
+import { IMonitoringResultService } from './services/interfaces/IMonitoringResultService';
+import { MonitoringResultService } from './services/MonitoringResultService';
+import { IUserService } from "./services/interfaces/IUserService";
+import { UserService } from "./services/UserService";
 import { IMonitoringResultDao } from "./dao/interfaces/IMonitoringResultDao";
 import { MonitoringResultDao } from "./dao/MonitoringResultDao";
 import { EndpointProbe } from "./backend-service/EndpointProbe";
 import { IEndpointProbe } from "./backend-service/IEndpointProbe";
 
 export class StartUp {
-    private static monitoredEndpointFacade: IEndpointFacade;
-    private static monitoringResultFacade: IMonitoringResultFacade;
-    private static userFacade: IUserFacade;
+    private static monitoredEndpointFacade: IEndpointService;
+    private static monitoringResultFacade: IMonitoringResultService;
+    private static userFacade: IUserService;
 
     private static monitoredEndpointDao: IMonitoredEndpointDao;
     private static monitoringResultDao: IMonitoringResultDao;
@@ -57,14 +57,14 @@ export class StartUp {
     private static registerDaos(): void {
         let connection = this.dbConnection.getMySqlConnection();
         this.userDao = new UserDao(connection);
-        this.monitoredEndpointDao = new EndpointDao(connection);
+        this.monitoredEndpointDao = new MonitoredEndpointDao(connection);
         this.monitoringResultDao = new MonitoringResultDao(connection);
     }
 
     private static registerFacades(): void {
-        this.monitoredEndpointFacade = new EndpointFacade(this.monitoredEndpointDao);
-        this.monitoringResultFacade = new MonitoringResultFacade();
-        this.userFacade = new UserFacade(this.userDao);
+        this.monitoredEndpointFacade = new EndpointService(this.monitoredEndpointDao);
+        this.monitoringResultFacade = new MonitoringResultService();
+        this.userFacade = new UserService(this.userDao);
     }
 
     private static startMonitoringEndpoints(): void {

@@ -1,6 +1,6 @@
 import { UserDto } from '../../db/model';
 
-export interface IUserFacade {
+export interface IUserService {
     /**
      * Selects all users
      * 

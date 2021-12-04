@@ -1,6 +1,6 @@
 import { MonitoringResultDto } from '../../db/model';
 
-export interface IMonitoringResultFacade {
+export interface IMonitoringResultService {
     /**
      * Inserts monitoring result into DB
      * 

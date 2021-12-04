@@ -1,9 +1,9 @@
 import { Request, Server, Response } from "restify";
 import { MonitoredEndpointDto } from '../db/model';
 import { IBaseController } from './IBaseController';
-import { IEndpointFacade } from '../facades/interfaces/IEndpointFacade';
-import { MonitoredEndpointPayload } from '../facades/model';
-import { IUserFacade } from "../facades/interfaces/IUserFacade";
+import { IEndpointService } from '../services/interfaces/IEndpointService';
+import { MonitoredEndpointPayload } from '../services/model';
+import { IUserService } from "../services/interfaces/IUserService";
 
 /**
  * Class representing EndpointController responsible for Endpoint REST calls
@@ -16,8 +16,8 @@ export class EndpointController implements IBaseController {
      */
     constructor(
         private readonly server: Server,
-        private readonly endpointFacade: IEndpointFacade,
-        private readonly userFacade: IUserFacade
+        private readonly endpointService: IEndpointService,
+        private readonly userFacade: IUserService
     ) {}
 
     
@@ -35,7 +35,7 @@ export class EndpointController implements IBaseController {
         this.server.get("/endpoints", async (request: Request, response: Response) => {
             let userId = await this.authUser(request, response);
             if (!userId) return;
-            let data: MonitoredEndpointDto[] = await this.endpointFacade.selectAllEndpoints(userId);
+            let data: MonitoredEndpointDto[] = await this.endpointService.selectAllEndpoints(userId);
             response.end(JSON.stringify(data));
         });
     }
@@ -48,7 +48,7 @@ export class EndpointController implements IBaseController {
             let userId = await this.authUser(request, response);
             if (!userId) return;
             let postData: MonitoredEndpointPayload = request.body as MonitoredEndpointPayload;
-            response.end(`${await this.endpointFacade.insertEndpoint(userId, postData)}`);
+            response.end(`${await this.endpointService.insertEndpoint(userId, postData)}`);
         });
     }
 
@@ -60,7 +60,9 @@ export class EndpointController implements IBaseController {
             let userId = await this.authUser(request, response);
             if (!userId) return;
             let postData: MonitoredEndpointPayload = request.body as MonitoredEndpointPayload;
-            response.end(`${await this.endpointFacade.updateEndpoint(postData, Number.parseInt(request.params.id), userId)}`);
+            let updateResult = await this.endpointService.updateEndpoint(postData, Number.parseInt(request.params.id), userId);
+            response.status(updateResult ? 200 : 404);
+            response.end(`Endpoint with Id ${request.params.id} ${updateResult ? 'was' : 'wasn\'t'} updated`);
         });
     }
 
@@ -71,7 +73,7 @@ export class EndpointController implements IBaseController {
         this.server.del("/endpoints/:id", async (request: Request, response: Response) => {
             let userId = await this.authUser(request, response);
             if (!userId) return;
-            let deletionResult = await this.endpointFacade.deleteEndpoint(Number.parseInt(request.params.id), userId);
+            let deletionResult = await this.endpointService.deleteEndpoint(Number.parseInt(request.params.id), userId);
             response.status(deletionResult ? 200 : 404);
             response.end(`Endpoint with Id ${request.params.id} ${deletionResult ? 'was' : 'wasn\'t'} deleted.`);
         });

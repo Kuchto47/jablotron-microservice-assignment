@@ -1,17 +1,17 @@
 import { IMonitoredEndpointDao } from '../dao/interfaces/IMonitoredEndpointDao';
 import { MonitoredEndpointDto } from '../db/model';
 import { MonitoredEndpointPayload } from './model';
-import { IEndpointFacade } from './interfaces/IEndpointFacade';
+import { IEndpointService } from './interfaces/IEndpointService';
 import { convertDateToDbFriendlyFormat } from '../helpers';
 
-export class EndpointFacade implements IEndpointFacade {
+export class EndpointService implements IEndpointService {
     /**
      * Class constructor
      */
-    constructor(private readonly endpointDao: IMonitoredEndpointDao) {}
+    constructor(private readonly monitoredEndpointDao: IMonitoredEndpointDao) {}
 
     public async selectAllEndpoints(userId: number): Promise<MonitoredEndpointDto[]> {
-        return await this.endpointDao.selectMonitoredEndpointsForUser(userId);
+        return await this.monitoredEndpointDao.selectMonitoredEndpointsForUser(userId);
     }
 
     public async insertEndpoint(userId: number, payload: MonitoredEndpointPayload): Promise<number> {
@@ -22,16 +22,16 @@ export class EndpointFacade implements IEndpointFacade {
             monitoredInterval: payload.monitoredInterval,
             ownerId: userId
         };
-        return await this.endpointDao.insertMonitoredEndpoint(monitoredEndpoint);
+        return await this.monitoredEndpointDao.insertMonitoredEndpoint(monitoredEndpoint);
     }
 
     public async updateEndpoint(data: MonitoredEndpointPayload, endpointId: number, userId: number): Promise<boolean> {
         try {
-            let ownedEndpoint = await this.endpointDao.selectMonitoredEndpointWithIdForUser(endpointId, userId);
+            let ownedEndpoint = await this.monitoredEndpointDao.selectMonitoredEndpointWithIdForUser(endpointId, userId);
             ownedEndpoint.name = data.name ?? ownedEndpoint.name;
             ownedEndpoint.monitoredInterval = data.monitoredInterval ?? ownedEndpoint.monitoredInterval;
             ownedEndpoint.url = data.url ?? ownedEndpoint.url;
-            return await this.endpointDao.updateMonitoredEndpoint(ownedEndpoint);
+            return await this.monitoredEndpointDao.updateMonitoredEndpoint(ownedEndpoint);
         } catch(_) {
             return false;
         }
@@ -39,9 +39,9 @@ export class EndpointFacade implements IEndpointFacade {
 
     public async deleteEndpoint(endpointId: number, userId: number): Promise<boolean> {
         try {
-            let ownedEndpoints = await this.endpointDao.selectMonitoredEndpointsForUser(userId);
+            let ownedEndpoints = await this.monitoredEndpointDao.selectMonitoredEndpointsForUser(userId);
             if (!ownedEndpoints.find(x => x.id === endpointId)) return false;
-            return await this.endpointDao.deleteEndpoint(endpointId);
+            return await this.monitoredEndpointDao.deleteEndpoint(endpointId);
         } catch (_) {
             return false;
         }

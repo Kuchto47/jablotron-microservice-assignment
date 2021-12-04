@@ -1,8 +1,8 @@
 import { UserDto } from '../db/model';
-import { IUserFacade } from './interfaces/IUserFacade';
+import { IUserService } from './interfaces/IUserService';
 import { IUserDao } from '../dao/interfaces/IUserDao';
 
-export class UserFacade implements IUserFacade {
+export class UserService implements IUserService {
 
     /**
      * Class constructor
