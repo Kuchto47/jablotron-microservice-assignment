@@ -1,0 +1,332 @@
+{
+	"info": {
+		"_postman_id": "178cc081-ba17-463d-86bf-0ea3297662dc",
+		"name": "JablotronAPI",
+		"description": "Set of calls for jablotron API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/endpoints",
+			"item": [
+				{
+					"name": "GET All Monitored Endpoints [Jablotron]",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "93f39e2f-80de-4033-99ee-249d92736a25",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/endpoints",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"endpoints"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET All Monitored Endpoints [Batman]",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "dcb20f8a-5657-4f1b-9f7f-ce65739b359e",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/endpoints",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"endpoints"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST New Monitored Endpoint [Jablotron]",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "93f39e2f-80de-4033-99ee-249d92736a25",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Google\",\n\t\"url\": \"https://www.google.com\",\n\t\"monitoredInterval\": 10\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/endpoints",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"endpoints"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST New Monitored Endpoint [Batman]",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "dcb20f8a-5657-4f1b-9f7f-ce65739b359e",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Google\",\n\t\"url\": \"https://images.unsplash.com/reserve/Af0sF2OS5S5gatqrKzVP_Silhoutte.jpg?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8cGljfGVufDB8fDB8fA%3D%3D&w=1000&q=80\",\n\t\"monitoredInterval\": 15\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/endpoints",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"endpoints"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Endpoint by ID [Jablotron]",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "93f39e2f-80de-4033-99ee-249d92736a25",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/endpoints/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"endpoints",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Endpoint by ID [Batman]",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "dcb20f8a-5657-4f1b-9f7f-ce65739b359e",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/endpoints/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"endpoints",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT Update Existing Endpoint [Jablotron]",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "93f39e2f-80de-4033-99ee-249d92736a25",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"name\": \"Test Update Me\",\r\n\t\"url\": \"www.updated.com\",\r\n\t\"monitoredInterval\": 70\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/endpoints/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"endpoints",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT Update Existing Endpoint [Batman]",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "dcb20f8a-5657-4f1b-9f7f-ce65739b359e",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"name\": \"Test Update Me\",\r\n\t\"url\": \"www.updated.com\",\r\n\t\"monitoredInterval\": 70\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/endpoints/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"endpoints",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "For interaction with MonitoredEndpoints"
+		},
+		{
+			"name": "/monitoring",
+			"item": [
+				{
+					"name": "GET Monitoring Results for Endpoint [Jablotron]",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "93f39e2f-80de-4033-99ee-249d92736a25",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/monitoring/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"monitoring",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Monitoring Results for Endpoint [Batman]",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "dcb20f8a-5657-4f1b-9f7f-ce65739b359e"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/monitoring/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"monitoring",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "For interaction with Monitoring Results"
+		}
+	]
+}
