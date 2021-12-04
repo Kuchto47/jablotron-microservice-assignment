@@ -2,7 +2,7 @@ export interface IEndpointProbe {
     /**
      * Starts monitoring of endpoints in DB
      */
-    start(): void;
+    start(): Promise<void>;
 
     /**
      * Load Endpoint with given ID from DB and start monitoring

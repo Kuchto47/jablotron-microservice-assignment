@@ -5,7 +5,7 @@ import { IMonitoredEndpointService } from '../services/interfaces/IMonitoredEndp
 import { MonitoredEndpointPayload } from '../services/model';
 import { IUserService } from "../services/interfaces/IUserService";
 import { authenticateUser } from "./authenticator";
-import { ResponseCode } from './ResponseCode';
+import { ResponseCode } from '../ResponseCode';
 
 /**
  * Class representing EndpointController responsible for Endpoint REST calls

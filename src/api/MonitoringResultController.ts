@@ -1,10 +1,10 @@
-import { Server, Request, Response, RequestAuthorization } from "restify";
+import { Server, Request, Response } from "restify";
 import { IBaseController } from './IBaseController';
 import { IUserService } from '../services/interfaces/IUserService';
 import { authenticateUser } from "./authenticator";
 import { IMonitoringResultService } from '../services/interfaces/IMonitoringResultService';
 import { MonitoringResultDto } from '../db/model';
-import { ResponseCode } from './ResponseCode';
+import { ResponseCode } from '../ResponseCode';
 
 /**
  * Class representing MonitoringResult, responsible for monitoring result REST calls

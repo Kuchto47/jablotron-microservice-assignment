@@ -3,6 +3,8 @@ import { IMonitoringResultService } from '../services/interfaces/IMonitoringResu
 import { IMonitoredEndpointService } from '../services/interfaces/IMonitoredEndpointService';
 import { MonitoringResultDto } from '../db/model';
 import { convertDateToDbFriendlyFormat } from '../helpers';
+import { get, IncomingMessage } from 'http';
+import { ResponseCode } from '../ResponseCode';
 
 export class ProbeMonitoredEndpoint implements IProbeMonitoredEndpoint {
 
@@ -39,19 +41,40 @@ export class ProbeMonitoredEndpoint implements IProbeMonitoredEndpoint {
 
     private setIntervalFn() {
         this.intervalFn = setInterval(async () => {
-            //fetch url...
+            let statusCode: number;
+            let body: string = "";
             let date: string = convertDateToDbFriendlyFormat(new Date());
-            let result: MonitoringResultDto = {
-                checkDate: date,
-                responseCode: 200, //todo
-                payloadReturned: "", //todo
-                monitoredEndpointId: this.endpointId
-            };
-            let newMonitoringResultId = await this.monitoringResultService.insertResult(result);
-            let monitoredEndpointUpdated = await this.monitoredEndpointService.updateEndpointsLastCheckDate(date, this.endpointId);
-            console.log(`New monitoring result created, ID ${newMonitoringResultId}`);
-            console.log(`Endpoint with ID ${this.endpointId} ${monitoredEndpointUpdated ? 'successfully' : 'was not'} updated`);
+            get(this.url, (response: IncomingMessage) => {
+                statusCode = response.statusCode;
+                response.setEncoding('utf8');
+                response.on("data", (chunk: any) => {
+                    body += chunk;
+                });
+                response.on("end", () => {
+                    this.persistMonitoringResult(date, statusCode, body);
+                });
+            }).on("error", (e: Error) => {
+                statusCode = ResponseCode.TEAPOT;
+                body = `I'm a teapot, error message: ${e.message}`;
+                this.persistMonitoringResult(date, statusCode, body);
+            });
         }, this.intervalTime);
+    }
+
+    private async persistMonitoringResult(date: string, statusCode: number, payload: string): Promise<void> {
+        let newMonitoringResultId = await this.monitoringResultService.insertResult(this.createMonitoringResult(date, statusCode, payload));
+        let monitoredEndpointUpdated = await this.monitoredEndpointService.updateEndpointsLastCheckDate(date, this.endpointId);
+        console.log(`New monitoring result created, ID ${newMonitoringResultId}`);
+        console.log(`Endpoint with ID ${this.endpointId} ${monitoredEndpointUpdated ? 'successfully' : 'was not'} updated`);
+    }
+
+    private createMonitoringResult(date: string, statusCode: number, payload: string): MonitoringResultDto {
+        return {
+            checkDate: date,
+            responseCode: statusCode,
+            payloadReturned: payload,
+            monitoredEndpointId: this.endpointId
+        };
     }
 
     private refreshIntervalFn() {
