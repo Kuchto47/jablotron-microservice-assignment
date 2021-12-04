@@ -40,7 +40,10 @@ export class MonitoringResultDao implements IMonitoringResultDao {
                 LIMIT 10`,
                 (err: MysqlError, results: MonitoringResultDto[]) => {
                     if (err) reject(err);
-                    else resolve(results);
+                    else {
+                        results.forEach(result => result.payloadReturned = result.payloadReturned.toString());
+                        resolve(results);
+                    }
                 }
             );
         });
