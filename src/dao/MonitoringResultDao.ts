@@ -16,8 +16,19 @@ export class MonitoringResultDao implements IMonitoringResultDao {
      */
     constructor(private db: Connection) {}
 
-    public async insertMonitoringResult(monitoringResult: MonitoringResultDto): Promise<void> {
-        throw new Error('Method not implemented.');
+    public async insertMonitoringResult(monitoringResult: MonitoringResultDto): Promise<number> {
+        return new Promise<number>((resolve, reject) => {
+            this.db.query(
+                `INSERT INTO ${this.TABLE_NAME}\
+                (checkDate, responseCode, payloadReturned, monitoredEndpointId)\
+                VALUES\
+                ("${monitoringResult.checkDate}", "${monitoringResult.responseCode}", "${monitoringResult.payloadReturned}", "${monitoringResult.monitoredEndpointId}")`,
+                (err: MysqlError, results: any) => {
+                    if (err) reject(err);
+                    else resolve(results.insertId);
+                }
+            );
+        });
     }
 
     public async selectLast10MonitoringResultsForEndpoint(endpointId: number): Promise<MonitoringResultDto[]> {

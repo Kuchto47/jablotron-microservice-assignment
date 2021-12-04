@@ -4,9 +4,11 @@ export interface IMonitoringResultDao {
     /**
      * Inserts new monitoring result into DB
      * 
-     * @param monitoringResult 
+     * @param monitoringResult Result to insert into DB
+     * 
+     * @returns Id of freshly added MonitoringResult
      */
-    insertMonitoringResult(monitoringResult: MonitoringResultDto): void;
+    insertMonitoringResult(monitoringResult: MonitoringResultDto): Promise<number>;
 
     /**
      * Retrieves last 10 monitoring results for given endpoint

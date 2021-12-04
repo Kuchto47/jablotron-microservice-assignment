@@ -13,8 +13,8 @@ export class MonitoringResultService implements IMonitoringResultService {
         private readonly monitoredEndpointDao: IMonitoredEndpointDao
     ) {}
 
-    public async insertResult(payload: any): Promise<number> {
-        throw new Error('Method not implemented.');
+    public async insertResult(payload: MonitoringResultDto): Promise<number> {
+        return await this.monitoringResultDao.insertMonitoringResult(payload);
     }
 
     public async selectLast10ResultsForEndpoint(endpointId: number, userId: number): Promise<MonitoringResultDto[]> {

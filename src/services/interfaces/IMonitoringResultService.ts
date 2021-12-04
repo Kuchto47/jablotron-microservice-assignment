@@ -4,11 +4,11 @@ export interface IMonitoringResultService {
     /**
      * Inserts monitoring result into DB
      * 
-     * @param payload 
+     * @param payload Monitoring Result to be inserted into DB
      * 
      * @returns ID of newly inserted monitoring result
      */
-    insertResult(payload: any): Promise<number>;
+    insertResult(payload: MonitoringResultDto): Promise<number>;
 
     /**
      * Selects last 10 monitoring results for given endpoint id owned by requesting user
