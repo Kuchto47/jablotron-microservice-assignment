@@ -19,7 +19,10 @@ export class EndpointController implements IBaseController {
     constructor(
         private readonly server: Server,
         private readonly endpointService: IMonitoredEndpointService,
-        private readonly userService: IUserService
+        private readonly userService: IUserService,
+        private readonly onInsert: (endpointId: number) => void,
+        private readonly onUpdate: (endpointId: number) => void,
+        private readonly onDelete: (endpointId: number) => void
     ) {}
 
     
@@ -50,7 +53,9 @@ export class EndpointController implements IBaseController {
             let userId = await authenticateUser(request, response, this.userService);
             if (!userId) return;
             let postData: MonitoredEndpointPayload = request.body as MonitoredEndpointPayload;
-            response.end(`${await this.endpointService.insertEndpoint(userId, postData)}`);
+            let newId = await this.endpointService.insertEndpoint(userId, postData);
+            this.onInsert(newId);
+            response.end(`${newId}`);
         });
     }
 
