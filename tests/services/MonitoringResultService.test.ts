@@ -1,7 +1,7 @@
-import { Mock } from 'typemoq';
+import { expect } from "chai";
 
 describe("TEST", () => {
-    it("", () => {
-
+    it("test", () => {
+        expect(true).to.equal(true);
     });
 });
