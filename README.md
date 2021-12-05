@@ -36,7 +36,6 @@ Dependency injection has been greatest factor while implementing.
 
 ### Dependencies
 
-* Windows 10
 * Git
 * NodeJS LTS 14+
 * MySQL DB installed
@@ -53,7 +52,7 @@ npm i
 ```
 * All dependencies should have been installed by now
 * Under ROOT_FOLDER/src/db create file config.ts and fill it with code as follows (swap ********* for your specific values):
-```
+```typescript
 import { ConnectionConfig } from "mysql";
 
 export const dbOptions: ConnectionConfig = {
@@ -100,7 +99,7 @@ npm run test
 * GET http://localhost:3000/endpoints (Retrieving MonitoringEndpoint)
 * POST http://localhost:3000/endpoints (Inserting/Creating MonitoringEndpoint)
   * JSON body fulfilling this form:
-  ```
+  ```typescript
   {
 	  "name": string,
 	  "url": string,
@@ -109,7 +108,7 @@ npm run test
   ```
 * PUT http://localhost:3000/endpoints/:id (Updating MonitoringEndpoint)
   * JSON body fulfilling this form:
-  ```
+  ```typescript
   {
 	  "name": string,
 	  "url": string,
