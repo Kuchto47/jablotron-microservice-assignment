@@ -3,7 +3,7 @@ import { MonitoringResultService } from '../../src/services/MonitoringResultServ
 import { IMonitoringResultDao } from '../../src/dao/interfaces/IMonitoringResultDao';
 import { IMonitoredEndpointDao } from '../../src/dao/interfaces/IMonitoredEndpointDao';
 import { IMock, Mock } from "typemoq";
-import { MonitoringResultDto } from '../../src/db/model';
+import { MonitoredEndpointDto, MonitoringResultDto } from '../../src/db/model';
 
 describe("MonitoringResultService", () => {
     let monitoringResultDaoMock: IMonitoringResultDao;
@@ -14,8 +14,24 @@ describe("MonitoringResultService", () => {
         let meDaoMock: IMock<IMonitoredEndpointDao> = Mock.ofType<IMonitoredEndpointDao>();
 
         mrDaoMock
-            .setup(x => x.insertMonitoringResult({} as MonitoringResultDto))
-            .returns(() => Promise.resolve(42));
+            .setup(x => x.insertMonitoringResult)
+            .returns((_: MonitoringResultDto) => (_) => Promise.resolve(42));
+
+        mrDaoMock
+            .setup(x => x.selectLast10MonitoringResultsForEndpoint)
+            .returns((_: number) => (_) => Promise.resolve([{} as MonitoringResultDto]));
+
+        let fakeEndpoint: MonitoredEndpointDto = {
+            name: "",
+            url: "",
+            creationDate: "",
+            monitoredInterval: 47,
+            ownerId: 1
+        };
+
+        meDaoMock
+            .setup(x => x.selectMonitoredEndpointById)
+            .returns((_: number) => (_) => Promise.resolve(fakeEndpoint));
 
         monitoringResultDaoMock = mrDaoMock.object;
         monitoredEndpointDaoMock = meDaoMock.object;
@@ -32,5 +48,20 @@ describe("MonitoringResultService", () => {
             let actualResult = await service.insertResult(dto);
             expect(actualResult).to.equal(42);
         });
+    });
+
+    describe("selectLast10ResultsForEndpoint", () => {
+        it("returns list of MonitoringResults", async () => {
+            let service = new MonitoringResultService(monitoringResultDaoMock, monitoredEndpointDaoMock);
+            let actualResult = await service.selectLast10ResultsForEndpoint(1, 1);
+            expect(actualResult.length).to.equal(1);
+            expect(actualResult).to.eql([{} as MonitoringResultDto]);
+        });
+
+        // it("returns list of MonitoringResults", async () => {
+        //     let service = new MonitoringResultService(monitoringResultDaoMock, monitoredEndpointDaoMock);
+        //     let actualResult = await service.selectLast10ResultsForEndpoint(1, 2);
+        //     expect(actualResult.length).to.equal(1);
+        // });
     });
 });
