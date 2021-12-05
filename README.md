@@ -29,9 +29,11 @@ Dependency injection was greatest factor while implementing.
 ### Dependencies
 
 * Windows 10
+* Git
 * NodeJS LTS 14+
 * MySQL DB installed
 * Postman (for seamless endpoint testing)
+* VS Code / Webstorm / any preferred IDE
 
 ### Installing
 
