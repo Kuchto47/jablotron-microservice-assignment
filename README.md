@@ -19,7 +19,9 @@ Each authenticated user should have possibility to check last 10 monitoring resu
 ### Implementation thought-process
 
 Trying to keep simple controllers-services-data_access_layer-db architecture.
+
 Interfacing everything that makes sense, keeping possibility of unit testing as high as possible.
+
 Dependency injection was greatest factor while implementing.
 
 ## Getting Started
