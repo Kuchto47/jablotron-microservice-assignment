@@ -1,4 +1,4 @@
-# Jablotron Microservice Assignment
+# Microservice Assignment
 
 Simple microservice assignment.
 
