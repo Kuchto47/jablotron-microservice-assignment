@@ -1,9 +1,11 @@
-import { expect } from "chai";
+import { expect, use } from "chai";
 import { MonitoringResultService } from '../../src/services/MonitoringResultService';
 import { IMonitoringResultDao } from '../../src/dao/interfaces/IMonitoringResultDao';
 import { IMonitoredEndpointDao } from '../../src/dao/interfaces/IMonitoredEndpointDao';
 import { IMock, Mock } from "typemoq";
 import { MonitoredEndpointDto, MonitoringResultDto } from '../../src/db/model';
+
+use(require("chai-as-promised"));
 
 describe("MonitoringResultService", () => {
     let monitoringResultDaoMock: IMonitoringResultDao;
@@ -58,10 +60,9 @@ describe("MonitoringResultService", () => {
             expect(actualResult).to.eql([{} as MonitoringResultDto]);
         });
 
-        // it("returns list of MonitoringResults", async () => {
-        //     let service = new MonitoringResultService(monitoringResultDaoMock, monitoredEndpointDaoMock);
-        //     let actualResult = await service.selectLast10ResultsForEndpoint(1, 2);
-        //     expect(actualResult.length).to.equal(1);
-        // });
+        it("throws because endpoint belongs to somebody else", async () => {
+            let service = new MonitoringResultService(monitoringResultDaoMock, monitoredEndpointDaoMock);
+            expect(service.selectLast10ResultsForEndpoint(1, 2)).to.eventually.throw();
+        });
     });
 });
