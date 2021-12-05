@@ -36,12 +36,12 @@ Dependency injection has been greatest factor while implementing.
 
 ### Dependencies
 
-* Windows 10
 * Git
 * NodeJS LTS 14+
 * MySQL DB installed
 * Postman (for seamless endpoint testing)
 * VS Code / Webstorm / any preferred IDE
+  * If using VS Code, for nice testing experience using [Mocha Test Explorer](https://marketplace.visualstudio.com/items?itemName=hbenl.vscode-mocha-test-adapter) and [Test Explorer UI](https://marketplace.visualstudio.com/items?itemName=hbenl.vscode-test-explorer) extensions is recommended...
 
 ### Installing
 
@@ -52,7 +52,7 @@ npm i
 ```
 * All dependencies should have been installed by now
 * Under ROOT_FOLDER/src/db create file config.ts and fill it with code as follows (swap ********* for your specific values):
-```
+```typescript
 import { ConnectionConfig } from "mysql";
 
 export const dbOptions: ConnectionConfig = {
@@ -85,12 +85,13 @@ npm run clear
 
 ### Executing tests
 
-* Unit tests can be ran using this command (NO TESTS SO FAR)
+* Unit tests can be ran using this command in command line
 ```
 npm run test
 ```
+* Or run desired tests using VS Code Test Explorer extension directly (links mentioned in [Dependencies](#dependencies) section)
 * You can import Postman definition, which can be found in ROOT_FOLDER/tests/postman
-* Highly recommended to play around with the service
+  * Highly recommended to play around with the service
 
 ### Provided Endpoints
 
@@ -98,7 +99,7 @@ npm run test
 * GET http://localhost:3000/endpoints (Retrieving MonitoringEndpoint)
 * POST http://localhost:3000/endpoints (Inserting/Creating MonitoringEndpoint)
   * JSON body fulfilling this form:
-  ```
+  ```typescript
   {
 	  "name": string,
 	  "url": string,
@@ -107,7 +108,7 @@ npm run test
   ```
 * PUT http://localhost:3000/endpoints/:id (Updating MonitoringEndpoint)
   * JSON body fulfilling this form:
-  ```
+  ```typescript
   {
 	  "name": string,
 	  "url": string,
