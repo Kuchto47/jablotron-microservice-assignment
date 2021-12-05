@@ -18,11 +18,19 @@ Each authenticated user should have possibility to check last 10 monitoring resu
 
 ### Implementation thought-process
 
-Trying to keep simple controllers-services-data_access_layer-db architecture.
+Trying to keep simple 'Controllers - Services - Data Access Layer (DAL) - DB' architecture.
 
 Interfacing everything that makes sense, keeping possibility of unit testing as high as possible.
 
 Dependency injection was greatest factor while implementing.
+
+### Possible improvements ahead
+
+* Finalize unit tests for each level AND lead further development with TDD
+* Implement TypeORM on DAL to manage with DB and map DB entities to code classes
+* Include Swagger-UI for endpoint-testing
+* Build simple web application and connect it with this service. Quite possibly in React.
+* Dockerize the service
 
 ## Getting Started
 
@@ -77,7 +85,7 @@ npm run clear
 
 ### Executing tests
 
-* Unit tests can be ran using this command (NO TEST SO FAR)
+* Unit tests can be ran using this command (NO TESTS SO FAR)
 ```
 npm run test
 ```
