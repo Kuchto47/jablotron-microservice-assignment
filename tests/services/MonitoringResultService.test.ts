@@ -44,23 +44,23 @@ describe("MonitoringResultService", () => {
     });
 
     describe("insertResult", () => {
-        it("returns 42 as ID of successfully created MointoringResult", async () => {
+        it("returns 42 as ID of successfully created MointoringResult", () => {
             let service = new MonitoringResultService(monitoringResultDaoMock, monitoredEndpointDaoMock);
             let dto = {} as MonitoringResultDto;
-            let actualResult = await service.insertResult(dto);
-            expect(actualResult).to.equal(42);
+            let actualResult = service.insertResult(dto);
+            expect(actualResult).to.eventually.equal(42);
         });
     });
 
     describe("selectLast10ResultsForEndpoint", () => {
-        it("returns list of MonitoringResults", async () => {
+        it("returns list of MonitoringResults", () => {
             let service = new MonitoringResultService(monitoringResultDaoMock, monitoredEndpointDaoMock);
-            let actualResult = await service.selectLast10ResultsForEndpoint(1, 1);
-            expect(actualResult.length).to.equal(1);
-            expect(actualResult).to.eql([{} as MonitoringResultDto]);
+            let actualResult = service.selectLast10ResultsForEndpoint(1, 1);
+            expect(actualResult).length.to.eventually.equal(1);
+            expect(actualResult).to.eventually.eql([{} as MonitoringResultDto]);
         });
 
-        it("throws because endpoint belongs to somebody else", async () => {
+        it("throws because endpoint belongs to somebody else", () => {
             let service = new MonitoringResultService(monitoringResultDaoMock, monitoredEndpointDaoMock);
             expect(service.selectLast10ResultsForEndpoint(1, 2)).to.eventually.throw();
         });
