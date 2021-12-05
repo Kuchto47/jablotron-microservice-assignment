@@ -22,7 +22,7 @@ Trying to keep simple 'Controllers - Services - Data Access Layer (DAL) - DB' ar
 
 Interfacing everything that makes sense, keeping possibility of unit testing as high as possible.
 
-Dependency injection was greatest factor while implementing.
+Dependency injection has been greatest factor while implementing.
 
 ### Possible improvements ahead
 
