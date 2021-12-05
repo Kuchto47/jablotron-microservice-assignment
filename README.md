@@ -42,6 +42,7 @@ Dependency injection has been greatest factor while implementing.
 * MySQL DB installed
 * Postman (for seamless endpoint testing)
 * VS Code / Webstorm / any preferred IDE
+  * If using VS Code, for nice testing experience using [Mocha Test Explorer](https://marketplace.visualstudio.com/items?itemName=hbenl.vscode-mocha-test-adapter) and [Test Explorer UI](https://marketplace.visualstudio.com/items?itemName=hbenl.vscode-test-explorer) extensions is recommended...
 
 ### Installing
 
@@ -85,12 +86,13 @@ npm run clear
 
 ### Executing tests
 
-* Unit tests can be ran using this command (NO TESTS SO FAR)
+* Unit tests can be ran using this command in command line
 ```
 npm run test
 ```
+* Or run desired tests using VS Code Test Explorer extension directly (links mentioned in [Dependencies](#dependencies) section)
 * You can import Postman definition, which can be found in ROOT_FOLDER/tests/postman
-* Highly recommended to play around with the service
+  * Highly recommended to play around with the service
 
 ### Provided Endpoints
 
